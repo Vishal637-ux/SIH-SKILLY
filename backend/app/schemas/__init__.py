@@ -1,0 +1,41 @@
+from app.schemas.auth import (
+    UserRole,
+    normalize_role,
+    UserRegister,
+    UserLogin,
+    TokenResponse,
+    UserResponse,
+    UserProfileResponse,
+    MessageResponse,
+)
+from app.schemas.student import (
+    InstitutionSimple,
+    DepartmentSimple,
+    CareerRoleSimple,
+    StudentAcademicProfileRead,
+    StudentProfileRead,
+    StudentProfileUpdate,
+    StudentMetrics,
+    StudentJourneyStatus,
+    StudentDashboardResponse,
+)
+
+__all__ = [
+    "UserRole",
+    "normalize_role",
+    "UserRegister",
+    "UserLogin",
+    "TokenResponse",
+    "UserResponse",
+    "UserProfileResponse",
+    "MessageResponse",
+    "InstitutionSimple",
+    "DepartmentSimple",
+    "CareerRoleSimple",
+    "StudentAcademicProfileRead",
+    "StudentProfileRead",
+    "StudentProfileUpdate",
+    "StudentMetrics",
+    "StudentJourneyStatus",
+    "StudentDashboardResponse",
+]

@@ -1,0 +1,5422 @@
+{
+  "environment": {
+    "python_version": "3.13.0 (tags/v3.13.0:60403a5, Oct  7 2024, 09:38:07) [MSC v.1941 64 bit (AMD64)]",
+    "fastapi_version": "0.141.1",
+    "sqlalchemy_version": "2.0.54",
+    "alembic_version": "1.20.0",
+    "pgvector_version": "unknown",
+    "pydantic_version": "2.13.5",
+    "database_url": "postgresql+asyncpg://postgres:***@localhost:5433/skilly",
+    "sync_database_url": "postgresql://postgres:***@localhost:5433/skilly"
+  },
+  "models": {
+    "model_classes_count": 47,
+    "metadata_tables_count": 47,
+    "metadata_tables": [
+      "activities",
+      "application_status_history",
+      "applications",
+      "assessment_attempts",
+      "assessment_questions",
+      "assessments",
+      "career_role_skills",
+      "career_roles",
+      "community_comments",
+      "community_posts",
+      "companies",
+      "company_users",
+      "competition_participants",
+      "competition_team_members",
+      "competition_teams",
+      "competitions",
+      "departments",
+      "embeddings",
+      "institution_staff",
+      "institutions",
+      "internship_evaluations",
+      "internship_progress",
+      "internships",
+      "mentor_connections",
+      "mentorship_sessions",
+      "notifications",
+      "opportunities",
+      "opportunity_skills",
+      "peer_skill_requests",
+      "placement_interactions",
+      "placement_records",
+      "portfolio_items",
+      "recognitions",
+      "resume_versions",
+      "roadmap_items",
+      "roadmaps",
+      "skill_evidence",
+      "skill_gaps",
+      "skill_relationships",
+      "skills",
+      "student_skills",
+      "students",
+      "teachers",
+      "training_enrollments",
+      "training_programs",
+      "user_profiles",
+      "users"
+    ]
+  },
+  "pg_version": "PostgreSQL 18.4 on x86_64-windows, compiled by msvc-19.44.35227, 64-bit",
+  "extensions": {
+    "plpgsql": "1.0",
+    "pgcrypto": "1.4",
+    "vector": "0.8.6"
+  },
+  "db_tables": {
+    "total_base_tables": 48,
+    "app_tables_count": 47,
+    "app_tables": [
+      "activities",
+      "application_status_history",
+      "applications",
+      "assessment_attempts",
+      "assessment_questions",
+      "assessments",
+      "career_role_skills",
+      "career_roles",
+      "community_comments",
+      "community_posts",
+      "companies",
+      "company_users",
+      "competition_participants",
+      "competition_team_members",
+      "competition_teams",
+      "competitions",
+      "departments",
+      "embeddings",
+      "institution_staff",
+      "institutions",
+      "internship_evaluations",
+      "internship_progress",
+      "internships",
+      "mentor_connections",
+      "mentorship_sessions",
+      "notifications",
+      "opportunities",
+      "opportunity_skills",
+      "peer_skill_requests",
+      "placement_interactions",
+      "placement_records",
+      "portfolio_items",
+      "recognitions",
+      "resume_versions",
+      "roadmap_items",
+      "roadmaps",
+      "skill_evidence",
+      "skill_gaps",
+      "skill_relationships",
+      "skills",
+      "student_skills",
+      "students",
+      "teachers",
+      "training_enrollments",
+      "training_programs",
+      "user_profiles",
+      "users"
+    ]
+  },
+  "foreign_keys": [
+    {
+      "table": "activities",
+      "constraint": "activities_conducted_by_user_id_fkey",
+      "column": "conducted_by_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "activities",
+      "constraint": "activities_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "application_status_history",
+      "constraint": "application_status_history_application_id_fkey",
+      "column": "application_id",
+      "foreign_table": "applications",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "application_status_history",
+      "constraint": "application_status_history_changed_by_user_id_fkey",
+      "column": "changed_by_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "applications",
+      "constraint": "applications_opportunity_id_fkey",
+      "column": "opportunity_id",
+      "foreign_table": "opportunities",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "applications",
+      "constraint": "applications_resume_version_id_fkey",
+      "column": "resume_version_id",
+      "foreign_table": "resume_versions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "applications",
+      "constraint": "applications_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "assessment_attempts",
+      "constraint": "assessment_attempts_assessment_id_fkey",
+      "column": "assessment_id",
+      "foreign_table": "assessments",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "assessment_attempts",
+      "constraint": "assessment_attempts_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "assessment_questions",
+      "constraint": "assessment_questions_assessment_id_fkey",
+      "column": "assessment_id",
+      "foreign_table": "assessments",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "assessments",
+      "constraint": "assessments_company_id_fkey",
+      "column": "company_id",
+      "foreign_table": "companies",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "assessments",
+      "constraint": "assessments_created_by_user_id_fkey",
+      "column": "created_by_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "assessments",
+      "constraint": "assessments_target_skill_id_fkey",
+      "column": "target_skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "career_role_skills",
+      "constraint": "career_role_skills_career_role_id_fkey",
+      "column": "career_role_id",
+      "foreign_table": "career_roles",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "career_role_skills",
+      "constraint": "career_role_skills_skill_id_fkey",
+      "column": "skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "community_comments",
+      "constraint": "community_comments_author_user_id_fkey",
+      "column": "author_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "community_comments",
+      "constraint": "community_comments_parent_comment_id_fkey",
+      "column": "parent_comment_id",
+      "foreign_table": "community_comments",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "community_comments",
+      "constraint": "community_comments_post_id_fkey",
+      "column": "post_id",
+      "foreign_table": "community_posts",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "community_posts",
+      "constraint": "community_posts_author_user_id_fkey",
+      "column": "author_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "company_users",
+      "constraint": "company_users_company_id_fkey",
+      "column": "company_id",
+      "foreign_table": "companies",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "company_users",
+      "constraint": "company_users_user_id_fkey",
+      "column": "user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "competition_participants",
+      "constraint": "competition_participants_competition_id_fkey",
+      "column": "competition_id",
+      "foreign_table": "competitions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "competition_participants",
+      "constraint": "competition_participants_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "competition_team_members",
+      "constraint": "competition_team_members_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "competition_team_members",
+      "constraint": "competition_team_members_team_id_fkey",
+      "column": "team_id",
+      "foreign_table": "competition_teams",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "competition_teams",
+      "constraint": "competition_teams_competition_id_fkey",
+      "column": "competition_id",
+      "foreign_table": "competitions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "competition_teams",
+      "constraint": "competition_teams_team_leader_student_id_fkey",
+      "column": "team_leader_student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "competitions",
+      "constraint": "competitions_company_id_fkey",
+      "column": "company_id",
+      "foreign_table": "companies",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "competitions",
+      "constraint": "competitions_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "departments",
+      "constraint": "departments_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "institution_staff",
+      "constraint": "institution_staff_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "institution_staff",
+      "constraint": "institution_staff_user_id_fkey",
+      "column": "user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "internship_evaluations",
+      "constraint": "internship_evaluations_evaluator_user_id_fkey",
+      "column": "evaluator_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "internship_evaluations",
+      "constraint": "internship_evaluations_internship_id_fkey",
+      "column": "internship_id",
+      "foreign_table": "internships",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "internship_progress",
+      "constraint": "internship_progress_internship_id_fkey",
+      "column": "internship_id",
+      "foreign_table": "internships",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "internships",
+      "constraint": "internships_company_id_fkey",
+      "column": "company_id",
+      "foreign_table": "companies",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "internships",
+      "constraint": "internships_opportunity_id_fkey",
+      "column": "opportunity_id",
+      "foreign_table": "opportunities",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "internships",
+      "constraint": "internships_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "internships",
+      "constraint": "internships_supervisor_user_id_fkey",
+      "column": "supervisor_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "mentor_connections",
+      "constraint": "mentor_connections_mentor_user_id_fkey",
+      "column": "mentor_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "mentor_connections",
+      "constraint": "mentor_connections_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "mentorship_sessions",
+      "constraint": "mentorship_sessions_connection_id_fkey",
+      "column": "connection_id",
+      "foreign_table": "mentor_connections",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "notifications",
+      "constraint": "notifications_user_id_fkey",
+      "column": "user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "opportunities",
+      "constraint": "opportunities_company_id_fkey",
+      "column": "company_id",
+      "foreign_table": "companies",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "opportunity_skills",
+      "constraint": "opportunity_skills_opportunity_id_fkey",
+      "column": "opportunity_id",
+      "foreign_table": "opportunities",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "opportunity_skills",
+      "constraint": "opportunity_skills_skill_id_fkey",
+      "column": "skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "peer_skill_requests",
+      "constraint": "peer_skill_requests_helper_student_id_fkey",
+      "column": "helper_student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "peer_skill_requests",
+      "constraint": "peer_skill_requests_requester_student_id_fkey",
+      "column": "requester_student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "peer_skill_requests",
+      "constraint": "peer_skill_requests_skill_id_fkey",
+      "column": "skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "placement_interactions",
+      "constraint": "placement_interactions_conducted_by_user_id_fkey",
+      "column": "conducted_by_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "placement_interactions",
+      "constraint": "placement_interactions_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "placement_interactions",
+      "constraint": "placement_interactions_opportunity_id_fkey",
+      "column": "opportunity_id",
+      "foreign_table": "opportunities",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "placement_records",
+      "constraint": "placement_records_company_id_fkey",
+      "column": "company_id",
+      "foreign_table": "companies",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "placement_records",
+      "constraint": "placement_records_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "placement_records",
+      "constraint": "placement_records_opportunity_id_fkey",
+      "column": "opportunity_id",
+      "foreign_table": "opportunities",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "placement_records",
+      "constraint": "placement_records_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "portfolio_items",
+      "constraint": "portfolio_items_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "recognitions",
+      "constraint": "recognitions_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "resume_versions",
+      "constraint": "resume_versions_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "resume_versions",
+      "constraint": "resume_versions_target_role_id_fkey",
+      "column": "target_role_id",
+      "foreign_table": "career_roles",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "roadmap_items",
+      "constraint": "roadmap_items_roadmap_id_fkey",
+      "column": "roadmap_id",
+      "foreign_table": "roadmaps",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "roadmap_items",
+      "constraint": "roadmap_items_skill_id_fkey",
+      "column": "skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "roadmaps",
+      "constraint": "roadmaps_career_role_id_fkey",
+      "column": "career_role_id",
+      "foreign_table": "career_roles",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "roadmaps",
+      "constraint": "roadmaps_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "skill_evidence",
+      "constraint": "skill_evidence_student_skill_id_fkey",
+      "column": "student_skill_id",
+      "foreign_table": "student_skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "skill_evidence",
+      "constraint": "skill_evidence_verified_by_user_id_fkey",
+      "column": "verified_by_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "skill_gaps",
+      "constraint": "skill_gaps_career_role_id_fkey",
+      "column": "career_role_id",
+      "foreign_table": "career_roles",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "skill_gaps",
+      "constraint": "skill_gaps_skill_id_fkey",
+      "column": "skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "skill_gaps",
+      "constraint": "skill_gaps_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "skill_relationships",
+      "constraint": "skill_relationships_child_skill_id_fkey",
+      "column": "child_skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "skill_relationships",
+      "constraint": "skill_relationships_parent_skill_id_fkey",
+      "column": "parent_skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "student_skills",
+      "constraint": "student_skills_skill_id_fkey",
+      "column": "skill_id",
+      "foreign_table": "skills",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "student_skills",
+      "constraint": "student_skills_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "students",
+      "constraint": "fk_student_institution_dept",
+      "column": "institution_id",
+      "foreign_table": "departments",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "students",
+      "constraint": "fk_student_institution_dept",
+      "column": "institution_id",
+      "foreign_table": "departments",
+      "foreign_column": "institution_id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "students",
+      "constraint": "fk_student_institution_dept",
+      "column": "department_id",
+      "foreign_table": "departments",
+      "foreign_column": "institution_id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "students",
+      "constraint": "fk_student_institution_dept",
+      "column": "department_id",
+      "foreign_table": "departments",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "students",
+      "constraint": "students_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "students",
+      "constraint": "students_target_career_role_id_fkey",
+      "column": "target_career_role_id",
+      "foreign_table": "career_roles",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "SET NULL"
+    },
+    {
+      "table": "students",
+      "constraint": "students_user_id_fkey",
+      "column": "user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "teachers",
+      "constraint": "fk_teacher_institution_dept",
+      "column": "institution_id",
+      "foreign_table": "departments",
+      "foreign_column": "institution_id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "teachers",
+      "constraint": "fk_teacher_institution_dept",
+      "column": "institution_id",
+      "foreign_table": "departments",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "teachers",
+      "constraint": "fk_teacher_institution_dept",
+      "column": "department_id",
+      "foreign_table": "departments",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "teachers",
+      "constraint": "fk_teacher_institution_dept",
+      "column": "department_id",
+      "foreign_table": "departments",
+      "foreign_column": "institution_id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "teachers",
+      "constraint": "teachers_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "teachers",
+      "constraint": "teachers_user_id_fkey",
+      "column": "user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "training_enrollments",
+      "constraint": "training_enrollments_student_id_fkey",
+      "column": "student_id",
+      "foreign_table": "students",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "training_enrollments",
+      "constraint": "training_enrollments_training_program_id_fkey",
+      "column": "training_program_id",
+      "foreign_table": "training_programs",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "training_programs",
+      "constraint": "training_programs_company_id_fkey",
+      "column": "company_id",
+      "foreign_table": "companies",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "training_programs",
+      "constraint": "training_programs_conducted_by_user_id_fkey",
+      "column": "conducted_by_user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "RESTRICT"
+    },
+    {
+      "table": "training_programs",
+      "constraint": "training_programs_institution_id_fkey",
+      "column": "institution_id",
+      "foreign_table": "institutions",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    },
+    {
+      "table": "user_profiles",
+      "constraint": "user_profiles_user_id_fkey",
+      "column": "user_id",
+      "foreign_table": "users",
+      "foreign_column": "id",
+      "on_update": "NO ACTION",
+      "on_delete": "CASCADE"
+    }
+  ],
+  "unique_constraints": [
+    {
+      "table": "applications",
+      "constraint": "uq_student_opportunity_application",
+      "columns": "opportunity_id, student_id"
+    },
+    {
+      "table": "career_role_skills",
+      "constraint": "uq_career_role_skill",
+      "columns": "career_role_id, skill_id"
+    },
+    {
+      "table": "career_roles",
+      "constraint": "career_roles_title_key",
+      "columns": "title"
+    },
+    {
+      "table": "competition_participants",
+      "constraint": "uq_comp_participant",
+      "columns": "competition_id, student_id"
+    },
+    {
+      "table": "competition_team_members",
+      "constraint": "uq_team_student_member",
+      "columns": "team_id, student_id"
+    },
+    {
+      "table": "competition_teams",
+      "constraint": "uq_comp_team_name",
+      "columns": "competition_id, team_name"
+    },
+    {
+      "table": "departments",
+      "constraint": "uq_institution_department_code",
+      "columns": "institution_id, code"
+    },
+    {
+      "table": "departments",
+      "constraint": "uq_institution_department_id",
+      "columns": "institution_id, id"
+    },
+    {
+      "table": "embeddings",
+      "constraint": "uq_entity_embedding",
+      "columns": "entity_type, entity_id"
+    },
+    {
+      "table": "internship_progress",
+      "constraint": "uq_internship_week_report",
+      "columns": "internship_id, week_number"
+    },
+    {
+      "table": "mentor_connections",
+      "constraint": "uq_student_mentor_connection",
+      "columns": "student_id, mentor_user_id"
+    },
+    {
+      "table": "opportunity_skills",
+      "constraint": "uq_opportunity_skill",
+      "columns": "opportunity_id, skill_id"
+    },
+    {
+      "table": "pg_am",
+      "constraint": "pg_am_name_index",
+      "columns": "amname"
+    },
+    {
+      "table": "pg_amop",
+      "constraint": "pg_amop_fam_strat_index",
+      "columns": "amopfamily, amoplefttype, amoprighttype, amopstrategy"
+    },
+    {
+      "table": "pg_amop",
+      "constraint": "pg_amop_opr_fam_index",
+      "columns": "amopopr, amoppurpose, amopfamily"
+    },
+    {
+      "table": "pg_amproc",
+      "constraint": "pg_amproc_fam_proc_index",
+      "columns": "amprocfamily, amproclefttype, amprocrighttype, amprocnum"
+    },
+    {
+      "table": "pg_attrdef",
+      "constraint": "pg_attrdef_adrelid_adnum_index",
+      "columns": "adrelid, adnum"
+    },
+    {
+      "table": "pg_attribute",
+      "constraint": "pg_attribute_relid_attnam_index",
+      "columns": "attrelid, attname"
+    },
+    {
+      "table": "pg_auth_members",
+      "constraint": "pg_auth_members_member_role_index",
+      "columns": "member, roleid, grantor"
+    },
+    {
+      "table": "pg_auth_members",
+      "constraint": "pg_auth_members_role_member_index",
+      "columns": "roleid, member, grantor"
+    },
+    {
+      "table": "pg_authid",
+      "constraint": "pg_authid_rolname_index",
+      "columns": "rolname"
+    },
+    {
+      "table": "pg_cast",
+      "constraint": "pg_cast_source_target_index",
+      "columns": "castsource, casttarget"
+    },
+    {
+      "table": "pg_class",
+      "constraint": "pg_class_relname_nsp_index",
+      "columns": "relname, relnamespace"
+    },
+    {
+      "table": "pg_collation",
+      "constraint": "pg_collation_name_enc_nsp_index",
+      "columns": "collname, collencoding, collnamespace"
+    },
+    {
+      "table": "pg_constraint",
+      "constraint": "pg_constraint_conrelid_contypid_conname_index",
+      "columns": "conrelid, contypid, conname"
+    },
+    {
+      "table": "pg_conversion",
+      "constraint": "pg_conversion_default_index",
+      "columns": "connamespace, conforencoding, contoencoding, oid"
+    },
+    {
+      "table": "pg_conversion",
+      "constraint": "pg_conversion_name_nsp_index",
+      "columns": "conname, connamespace"
+    },
+    {
+      "table": "pg_database",
+      "constraint": "pg_database_datname_index",
+      "columns": "datname"
+    },
+    {
+      "table": "pg_default_acl",
+      "constraint": "pg_default_acl_role_nsp_obj_index",
+      "columns": "defaclrole, defaclnamespace, defaclobjtype"
+    },
+    {
+      "table": "pg_enum",
+      "constraint": "pg_enum_typid_label_index",
+      "columns": "enumtypid, enumlabel"
+    },
+    {
+      "table": "pg_enum",
+      "constraint": "pg_enum_typid_sortorder_index",
+      "columns": "enumtypid, enumsortorder"
+    },
+    {
+      "table": "pg_event_trigger",
+      "constraint": "pg_event_trigger_evtname_index",
+      "columns": "evtname"
+    },
+    {
+      "table": "pg_extension",
+      "constraint": "pg_extension_name_index",
+      "columns": "extname"
+    },
+    {
+      "table": "pg_foreign_data_wrapper",
+      "constraint": "pg_foreign_data_wrapper_name_index",
+      "columns": "fdwname"
+    },
+    {
+      "table": "pg_foreign_server",
+      "constraint": "pg_foreign_server_name_index",
+      "columns": "srvname"
+    },
+    {
+      "table": "pg_language",
+      "constraint": "pg_language_name_index",
+      "columns": "lanname"
+    },
+    {
+      "table": "pg_namespace",
+      "constraint": "pg_namespace_nspname_index",
+      "columns": "nspname"
+    },
+    {
+      "table": "pg_opclass",
+      "constraint": "pg_opclass_am_name_nsp_index",
+      "columns": "opcmethod, opcname, opcnamespace"
+    },
+    {
+      "table": "pg_operator",
+      "constraint": "pg_operator_oprname_l_r_n_index",
+      "columns": "oprname, oprleft, oprright, oprnamespace"
+    },
+    {
+      "table": "pg_opfamily",
+      "constraint": "pg_opfamily_am_name_nsp_index",
+      "columns": "opfmethod, opfname, opfnamespace"
+    },
+    {
+      "table": "pg_parameter_acl",
+      "constraint": "pg_parameter_acl_parname_index",
+      "columns": "parname"
+    },
+    {
+      "table": "pg_policy",
+      "constraint": "pg_policy_polrelid_polname_index",
+      "columns": "polrelid, polname"
+    },
+    {
+      "table": "pg_proc",
+      "constraint": "pg_proc_proname_args_nsp_index",
+      "columns": "proname, proargtypes, pronamespace"
+    },
+    {
+      "table": "pg_publication",
+      "constraint": "pg_publication_pubname_index",
+      "columns": "pubname"
+    },
+    {
+      "table": "pg_publication_namespace",
+      "constraint": "pg_publication_namespace_pnnspid_pnpubid_index",
+      "columns": "pnnspid, pnpubid"
+    },
+    {
+      "table": "pg_publication_rel",
+      "constraint": "pg_publication_rel_prrelid_prpubid_index",
+      "columns": "prrelid, prpubid"
+    },
+    {
+      "table": "pg_range",
+      "constraint": "pg_range_rngmultitypid_index",
+      "columns": "rngmultitypid"
+    },
+    {
+      "table": "pg_replication_origin",
+      "constraint": "pg_replication_origin_roname_index",
+      "columns": "roname"
+    },
+    {
+      "table": "pg_rewrite",
+      "constraint": "pg_rewrite_rel_rulename_index",
+      "columns": "ev_class, rulename"
+    },
+    {
+      "table": "pg_statistic_ext",
+      "constraint": "pg_statistic_ext_name_index",
+      "columns": "stxname, stxnamespace"
+    },
+    {
+      "table": "pg_subscription",
+      "constraint": "pg_subscription_subname_index",
+      "columns": "subdbid, subname"
+    },
+    {
+      "table": "pg_tablespace",
+      "constraint": "pg_tablespace_spcname_index",
+      "columns": "spcname"
+    },
+    {
+      "table": "pg_transform",
+      "constraint": "pg_transform_type_lang_index",
+      "columns": "trftype, trflang"
+    },
+    {
+      "table": "pg_trigger",
+      "constraint": "pg_trigger_tgrelid_tgname_index",
+      "columns": "tgrelid, tgname"
+    },
+    {
+      "table": "pg_ts_config",
+      "constraint": "pg_ts_config_cfgname_index",
+      "columns": "cfgname, cfgnamespace"
+    },
+    {
+      "table": "pg_ts_dict",
+      "constraint": "pg_ts_dict_dictname_index",
+      "columns": "dictname, dictnamespace"
+    },
+    {
+      "table": "pg_ts_parser",
+      "constraint": "pg_ts_parser_prsname_index",
+      "columns": "prsname, prsnamespace"
+    },
+    {
+      "table": "pg_ts_template",
+      "constraint": "pg_ts_template_tmplname_index",
+      "columns": "tmplname, tmplnamespace"
+    },
+    {
+      "table": "pg_type",
+      "constraint": "pg_type_typname_nsp_index",
+      "columns": "typname, typnamespace"
+    },
+    {
+      "table": "pg_user_mapping",
+      "constraint": "pg_user_mapping_user_server_index",
+      "columns": "umuser, umserver"
+    },
+    {
+      "table": "recognitions",
+      "constraint": "recognitions_verification_hash_key",
+      "columns": "verification_hash"
+    },
+    {
+      "table": "roadmap_items",
+      "constraint": "uq_roadmap_item_order",
+      "columns": "roadmap_id, step_order"
+    },
+    {
+      "table": "skill_gaps",
+      "constraint": "uq_student_role_skill_gap",
+      "columns": "student_id, career_role_id, skill_id"
+    },
+    {
+      "table": "skill_relationships",
+      "constraint": "uq_skill_relationship",
+      "columns": "parent_skill_id, child_skill_id, relationship_type"
+    },
+    {
+      "table": "skills",
+      "constraint": "skills_name_key",
+      "columns": "name"
+    },
+    {
+      "table": "student_skills",
+      "constraint": "uq_student_skill",
+      "columns": "student_id, skill_id"
+    },
+    {
+      "table": "students",
+      "constraint": "uq_institution_student_roll",
+      "columns": "institution_id, roll_number"
+    },
+    {
+      "table": "training_enrollments",
+      "constraint": "uq_training_enrollment",
+      "columns": "training_program_id, student_id"
+    }
+  ],
+  "check_constraints": [
+    {
+      "table": "activities",
+      "constraint": "chk_activities_times",
+      "clause": "(end_time >= start_time)"
+    },
+    {
+      "table": "assessment_attempts",
+      "constraint": "chk_assessment_attempts_pct",
+      "clause": "((percentage >= 0.00) AND (percentage <= 100.00))"
+    },
+    {
+      "table": "assessment_attempts",
+      "constraint": "chk_assessment_attempts_score",
+      "clause": "(score >= 0.00)"
+    },
+    {
+      "table": "assessment_questions",
+      "constraint": "chk_assessment_questions_points",
+      "clause": "(points > 0)"
+    },
+    {
+      "table": "assessments",
+      "constraint": "chk_assessments_total_q",
+      "clause": "(total_questions > 0)"
+    },
+    {
+      "table": "assessments",
+      "constraint": "chk_assessments_duration",
+      "clause": "(duration_minutes > 0)"
+    },
+    {
+      "table": "assessments",
+      "constraint": "chk_assessments_passing_score",
+      "clause": "((passing_score >= 0.00) AND (passing_score <= 100.00))"
+    },
+    {
+      "table": "competitions",
+      "constraint": "chk_competitions_dates",
+      "clause": "((end_date >= start_date) AND (start_date >= registration_deadline))"
+    },
+    {
+      "table": "competitions",
+      "constraint": "chk_competitions_team_size",
+      "clause": "(max_team_size > 0)"
+    },
+    {
+      "table": "internship_evaluations",
+      "constraint": "chk_eval_tech_rating",
+      "clause": "((technical_rating >= 1) AND (technical_rating <= 5))"
+    },
+    {
+      "table": "internship_evaluations",
+      "constraint": "chk_eval_punc_rating",
+      "clause": "((punctuality_rating >= 1) AND (punctuality_rating <= 5))"
+    },
+    {
+      "table": "internship_evaluations",
+      "constraint": "chk_eval_soft_rating",
+      "clause": "((soft_skills_rating >= 1) AND (soft_skills_rating <= 5))"
+    },
+    {
+      "table": "internship_progress",
+      "constraint": "chk_internship_progress_week",
+      "clause": "(week_number > 0)"
+    },
+    {
+      "table": "internships",
+      "constraint": "chk_internships_dates",
+      "clause": "(end_date >= start_date)"
+    },
+    {
+      "table": "mentorship_sessions",
+      "constraint": "chk_session_feedback",
+      "clause": "((feedback_rating IS NULL) OR ((feedback_rating >= 1) AND (feedback_rating <= 5)))"
+    },
+    {
+      "table": "mentorship_sessions",
+      "constraint": "chk_session_duration",
+      "clause": "(duration_minutes > 0)"
+    },
+    {
+      "table": "opportunities",
+      "constraint": "chk_opportunities_openings",
+      "clause": "(openings_count > 0)"
+    },
+    {
+      "table": "opportunities",
+      "constraint": "chk_opportunities_duration",
+      "clause": "((duration_months IS NULL) OR (duration_months > 0))"
+    },
+    {
+      "table": "placement_records",
+      "constraint": "chk_placement_package",
+      "clause": "(package_lpa > 0.00)"
+    },
+    {
+      "table": "roadmap_items",
+      "constraint": "chk_roadmap_items_hours",
+      "clause": "((estimated_hours IS NULL) OR (estimated_hours >= 0))"
+    },
+    {
+      "table": "skill_relationships",
+      "constraint": "chk_no_self_relationship",
+      "clause": "(parent_skill_id <> child_skill_id)"
+    },
+    {
+      "table": "student_skills",
+      "constraint": "chk_student_skills_conf",
+      "clause": "((confidence_score IS NULL) OR ((confidence_score >= 0.00) AND (confidence_score <= 1.00)))"
+    },
+    {
+      "table": "student_skills",
+      "constraint": "chk_student_skills_score",
+      "clause": "((score IS NULL) OR ((score >= 0.00) AND (score <= 100.00)))"
+    },
+    {
+      "table": "students",
+      "constraint": "chk_students_graduation",
+      "clause": "(graduation_year >= enrollment_year)"
+    },
+    {
+      "table": "students",
+      "constraint": "chk_students_semester",
+      "clause": "(current_semester > 0)"
+    },
+    {
+      "table": "students",
+      "constraint": "chk_students_cgpa",
+      "clause": "((cgpa IS NULL) OR ((cgpa >= 0.00) AND (cgpa <= 10.00)))"
+    },
+    {
+      "table": "training_enrollments",
+      "constraint": "chk_training_enrollments_att",
+      "clause": "((attendance_percentage >= 0.00) AND (attendance_percentage <= 100.00))"
+    },
+    {
+      "table": "training_programs",
+      "constraint": "chk_training_programs_dates",
+      "clause": "(end_date >= start_date)"
+    },
+    {
+      "table": "training_programs",
+      "constraint": "chk_training_programs_capacity",
+      "clause": "((capacity IS NULL) OR (capacity > 0))"
+    }
+  ],
+  "indexes": [
+    {
+      "table": "activities",
+      "index": "activities_pkey",
+      "definition": "CREATE UNIQUE INDEX activities_pkey ON public.activities USING btree (id)"
+    },
+    {
+      "table": "activities",
+      "index": "idx_activities_institution",
+      "definition": "CREATE INDEX idx_activities_institution ON public.activities USING btree (institution_id)"
+    },
+    {
+      "table": "activities",
+      "index": "idx_activities_start_time",
+      "definition": "CREATE INDEX idx_activities_start_time ON public.activities USING btree (start_time)"
+    },
+    {
+      "table": "activities",
+      "index": "ix_activities_institution_id",
+      "definition": "CREATE INDEX ix_activities_institution_id ON public.activities USING btree (institution_id)"
+    },
+    {
+      "table": "activities",
+      "index": "ix_activities_start_time",
+      "definition": "CREATE INDEX ix_activities_start_time ON public.activities USING btree (start_time)"
+    },
+    {
+      "table": "alembic_version",
+      "index": "alembic_version_pkc",
+      "definition": "CREATE UNIQUE INDEX alembic_version_pkc ON public.alembic_version USING btree (version_num)"
+    },
+    {
+      "table": "application_status_history",
+      "index": "application_status_history_pkey",
+      "definition": "CREATE UNIQUE INDEX application_status_history_pkey ON public.application_status_history USING btree (id)"
+    },
+    {
+      "table": "application_status_history",
+      "index": "idx_app_status_hist_application",
+      "definition": "CREATE INDEX idx_app_status_hist_application ON public.application_status_history USING btree (application_id)"
+    },
+    {
+      "table": "application_status_history",
+      "index": "ix_application_status_history_application_id",
+      "definition": "CREATE INDEX ix_application_status_history_application_id ON public.application_status_history USING btree (application_id)"
+    },
+    {
+      "table": "applications",
+      "index": "applications_pkey",
+      "definition": "CREATE UNIQUE INDEX applications_pkey ON public.applications USING btree (id)"
+    },
+    {
+      "table": "applications",
+      "index": "idx_applications_opportunity_status",
+      "definition": "CREATE INDEX idx_applications_opportunity_status ON public.applications USING btree (opportunity_id, current_status)"
+    },
+    {
+      "table": "applications",
+      "index": "idx_applications_student",
+      "definition": "CREATE INDEX idx_applications_student ON public.applications USING btree (student_id)"
+    },
+    {
+      "table": "applications",
+      "index": "ix_applications_student_id",
+      "definition": "CREATE INDEX ix_applications_student_id ON public.applications USING btree (student_id)"
+    },
+    {
+      "table": "applications",
+      "index": "uq_student_opportunity_application",
+      "definition": "CREATE UNIQUE INDEX uq_student_opportunity_application ON public.applications USING btree (opportunity_id, student_id)"
+    },
+    {
+      "table": "assessment_attempts",
+      "index": "assessment_attempts_pkey",
+      "definition": "CREATE UNIQUE INDEX assessment_attempts_pkey ON public.assessment_attempts USING btree (id)"
+    },
+    {
+      "table": "assessment_attempts",
+      "index": "idx_assessment_attempts_assessment",
+      "definition": "CREATE INDEX idx_assessment_attempts_assessment ON public.assessment_attempts USING btree (assessment_id)"
+    },
+    {
+      "table": "assessment_attempts",
+      "index": "idx_assessment_attempts_student",
+      "definition": "CREATE INDEX idx_assessment_attempts_student ON public.assessment_attempts USING btree (student_id)"
+    },
+    {
+      "table": "assessment_attempts",
+      "index": "ix_assessment_attempts_assessment_id",
+      "definition": "CREATE INDEX ix_assessment_attempts_assessment_id ON public.assessment_attempts USING btree (assessment_id)"
+    },
+    {
+      "table": "assessment_attempts",
+      "index": "ix_assessment_attempts_student_id",
+      "definition": "CREATE INDEX ix_assessment_attempts_student_id ON public.assessment_attempts USING btree (student_id)"
+    },
+    {
+      "table": "assessment_questions",
+      "index": "assessment_questions_pkey",
+      "definition": "CREATE UNIQUE INDEX assessment_questions_pkey ON public.assessment_questions USING btree (id)"
+    },
+    {
+      "table": "assessment_questions",
+      "index": "idx_assessment_questions_assessment",
+      "definition": "CREATE INDEX idx_assessment_questions_assessment ON public.assessment_questions USING btree (assessment_id)"
+    },
+    {
+      "table": "assessment_questions",
+      "index": "ix_assessment_questions_assessment_id",
+      "definition": "CREATE INDEX ix_assessment_questions_assessment_id ON public.assessment_questions USING btree (assessment_id)"
+    },
+    {
+      "table": "assessments",
+      "index": "assessments_pkey",
+      "definition": "CREATE UNIQUE INDEX assessments_pkey ON public.assessments USING btree (id)"
+    },
+    {
+      "table": "assessments",
+      "index": "idx_assessments_company",
+      "definition": "CREATE INDEX idx_assessments_company ON public.assessments USING btree (company_id)"
+    },
+    {
+      "table": "assessments",
+      "index": "idx_assessments_skill",
+      "definition": "CREATE INDEX idx_assessments_skill ON public.assessments USING btree (target_skill_id)"
+    },
+    {
+      "table": "assessments",
+      "index": "ix_assessments_company_id",
+      "definition": "CREATE INDEX ix_assessments_company_id ON public.assessments USING btree (company_id)"
+    },
+    {
+      "table": "assessments",
+      "index": "ix_assessments_target_skill_id",
+      "definition": "CREATE INDEX ix_assessments_target_skill_id ON public.assessments USING btree (target_skill_id)"
+    },
+    {
+      "table": "career_role_skills",
+      "index": "career_role_skills_pkey",
+      "definition": "CREATE UNIQUE INDEX career_role_skills_pkey ON public.career_role_skills USING btree (id)"
+    },
+    {
+      "table": "career_role_skills",
+      "index": "idx_career_role_skills_role",
+      "definition": "CREATE INDEX idx_career_role_skills_role ON public.career_role_skills USING btree (career_role_id)"
+    },
+    {
+      "table": "career_role_skills",
+      "index": "uq_career_role_skill",
+      "definition": "CREATE UNIQUE INDEX uq_career_role_skill ON public.career_role_skills USING btree (career_role_id, skill_id)"
+    },
+    {
+      "table": "career_roles",
+      "index": "career_roles_pkey",
+      "definition": "CREATE UNIQUE INDEX career_roles_pkey ON public.career_roles USING btree (id)"
+    },
+    {
+      "table": "career_roles",
+      "index": "career_roles_title_key",
+      "definition": "CREATE UNIQUE INDEX career_roles_title_key ON public.career_roles USING btree (title)"
+    },
+    {
+      "table": "career_roles",
+      "index": "idx_career_roles_slug",
+      "definition": "CREATE INDEX idx_career_roles_slug ON public.career_roles USING btree (slug)"
+    },
+    {
+      "table": "career_roles",
+      "index": "ix_career_roles_slug",
+      "definition": "CREATE UNIQUE INDEX ix_career_roles_slug ON public.career_roles USING btree (slug)"
+    },
+    {
+      "table": "community_comments",
+      "index": "community_comments_pkey",
+      "definition": "CREATE UNIQUE INDEX community_comments_pkey ON public.community_comments USING btree (id)"
+    },
+    {
+      "table": "community_comments",
+      "index": "idx_community_comments_post",
+      "definition": "CREATE INDEX idx_community_comments_post ON public.community_comments USING btree (post_id)"
+    },
+    {
+      "table": "community_comments",
+      "index": "ix_community_comments_post_id",
+      "definition": "CREATE INDEX ix_community_comments_post_id ON public.community_comments USING btree (post_id)"
+    },
+    {
+      "table": "community_posts",
+      "index": "community_posts_pkey",
+      "definition": "CREATE UNIQUE INDEX community_posts_pkey ON public.community_posts USING btree (id)"
+    },
+    {
+      "table": "community_posts",
+      "index": "idx_community_posts_author",
+      "definition": "CREATE INDEX idx_community_posts_author ON public.community_posts USING btree (author_user_id)"
+    },
+    {
+      "table": "community_posts",
+      "index": "idx_community_posts_created",
+      "definition": "CREATE INDEX idx_community_posts_created ON public.community_posts USING btree (created_at DESC)"
+    },
+    {
+      "table": "community_posts",
+      "index": "ix_community_posts_author_user_id",
+      "definition": "CREATE INDEX ix_community_posts_author_user_id ON public.community_posts USING btree (author_user_id)"
+    },
+    {
+      "table": "companies",
+      "index": "companies_pkey",
+      "definition": "CREATE UNIQUE INDEX companies_pkey ON public.companies USING btree (id)"
+    },
+    {
+      "table": "companies",
+      "index": "idx_companies_industry_type",
+      "definition": "CREATE INDEX idx_companies_industry_type ON public.companies USING btree (industry_type)"
+    },
+    {
+      "table": "companies",
+      "index": "idx_companies_name",
+      "definition": "CREATE INDEX idx_companies_name ON public.companies USING btree (name)"
+    },
+    {
+      "table": "companies",
+      "index": "ix_companies_industry_type",
+      "definition": "CREATE INDEX ix_companies_industry_type ON public.companies USING btree (industry_type)"
+    },
+    {
+      "table": "companies",
+      "index": "ix_companies_name",
+      "definition": "CREATE UNIQUE INDEX ix_companies_name ON public.companies USING btree (name)"
+    },
+    {
+      "table": "company_users",
+      "index": "company_users_pkey",
+      "definition": "CREATE UNIQUE INDEX company_users_pkey ON public.company_users USING btree (id)"
+    },
+    {
+      "table": "company_users",
+      "index": "idx_company_users_company_id",
+      "definition": "CREATE INDEX idx_company_users_company_id ON public.company_users USING btree (company_id)"
+    },
+    {
+      "table": "company_users",
+      "index": "ix_company_users_company_id",
+      "definition": "CREATE INDEX ix_company_users_company_id ON public.company_users USING btree (company_id)"
+    },
+    {
+      "table": "company_users",
+      "index": "ix_company_users_user_id",
+      "definition": "CREATE UNIQUE INDEX ix_company_users_user_id ON public.company_users USING btree (user_id)"
+    },
+    {
+      "table": "competition_participants",
+      "index": "competition_participants_pkey",
+      "definition": "CREATE UNIQUE INDEX competition_participants_pkey ON public.competition_participants USING btree (id)"
+    },
+    {
+      "table": "competition_participants",
+      "index": "idx_comp_participants_comp",
+      "definition": "CREATE INDEX idx_comp_participants_comp ON public.competition_participants USING btree (competition_id)"
+    },
+    {
+      "table": "competition_participants",
+      "index": "idx_comp_participants_student",
+      "definition": "CREATE INDEX idx_comp_participants_student ON public.competition_participants USING btree (student_id)"
+    },
+    {
+      "table": "competition_participants",
+      "index": "uq_comp_participant",
+      "definition": "CREATE UNIQUE INDEX uq_comp_participant ON public.competition_participants USING btree (competition_id, student_id)"
+    },
+    {
+      "table": "competition_team_members",
+      "index": "competition_team_members_pkey",
+      "definition": "CREATE UNIQUE INDEX competition_team_members_pkey ON public.competition_team_members USING btree (id)"
+    },
+    {
+      "table": "competition_team_members",
+      "index": "idx_comp_team_members_student",
+      "definition": "CREATE INDEX idx_comp_team_members_student ON public.competition_team_members USING btree (student_id)"
+    },
+    {
+      "table": "competition_team_members",
+      "index": "idx_comp_team_members_team",
+      "definition": "CREATE INDEX idx_comp_team_members_team ON public.competition_team_members USING btree (team_id)"
+    },
+    {
+      "table": "competition_team_members",
+      "index": "uq_team_student_member",
+      "definition": "CREATE UNIQUE INDEX uq_team_student_member ON public.competition_team_members USING btree (team_id, student_id)"
+    },
+    {
+      "table": "competition_teams",
+      "index": "competition_teams_pkey",
+      "definition": "CREATE UNIQUE INDEX competition_teams_pkey ON public.competition_teams USING btree (id)"
+    },
+    {
+      "table": "competition_teams",
+      "index": "idx_comp_teams_competition",
+      "definition": "CREATE INDEX idx_comp_teams_competition ON public.competition_teams USING btree (competition_id)"
+    },
+    {
+      "table": "competition_teams",
+      "index": "uq_comp_team_name",
+      "definition": "CREATE UNIQUE INDEX uq_comp_team_name ON public.competition_teams USING btree (competition_id, team_name)"
+    },
+    {
+      "table": "competitions",
+      "index": "competitions_pkey",
+      "definition": "CREATE UNIQUE INDEX competitions_pkey ON public.competitions USING btree (id)"
+    },
+    {
+      "table": "competitions",
+      "index": "idx_competitions_slug",
+      "definition": "CREATE INDEX idx_competitions_slug ON public.competitions USING btree (slug)"
+    },
+    {
+      "table": "competitions",
+      "index": "idx_competitions_status",
+      "definition": "CREATE INDEX idx_competitions_status ON public.competitions USING btree (status)"
+    },
+    {
+      "table": "competitions",
+      "index": "ix_competitions_slug",
+      "definition": "CREATE UNIQUE INDEX ix_competitions_slug ON public.competitions USING btree (slug)"
+    },
+    {
+      "table": "competitions",
+      "index": "ix_competitions_status",
+      "definition": "CREATE INDEX ix_competitions_status ON public.competitions USING btree (status)"
+    },
+    {
+      "table": "departments",
+      "index": "departments_pkey",
+      "definition": "CREATE UNIQUE INDEX departments_pkey ON public.departments USING btree (id)"
+    },
+    {
+      "table": "departments",
+      "index": "idx_departments_institution_id",
+      "definition": "CREATE INDEX idx_departments_institution_id ON public.departments USING btree (institution_id)"
+    },
+    {
+      "table": "departments",
+      "index": "ix_departments_institution_id",
+      "definition": "CREATE INDEX ix_departments_institution_id ON public.departments USING btree (institution_id)"
+    },
+    {
+      "table": "departments",
+      "index": "uq_institution_department_code",
+      "definition": "CREATE UNIQUE INDEX uq_institution_department_code ON public.departments USING btree (institution_id, code)"
+    },
+    {
+      "table": "departments",
+      "index": "uq_institution_department_id",
+      "definition": "CREATE UNIQUE INDEX uq_institution_department_id ON public.departments USING btree (institution_id, id)"
+    },
+    {
+      "table": "embeddings",
+      "index": "embeddings_pkey",
+      "definition": "CREATE UNIQUE INDEX embeddings_pkey ON public.embeddings USING btree (id)"
+    },
+    {
+      "table": "embeddings",
+      "index": "idx_embeddings_cosine",
+      "definition": "CREATE INDEX idx_embeddings_cosine ON public.embeddings USING hnsw (embedding_vector vector_cosine_ops)"
+    },
+    {
+      "table": "embeddings",
+      "index": "idx_embeddings_lookup",
+      "definition": "CREATE INDEX idx_embeddings_lookup ON public.embeddings USING btree (entity_type, entity_id)"
+    },
+    {
+      "table": "embeddings",
+      "index": "uq_entity_embedding",
+      "definition": "CREATE UNIQUE INDEX uq_entity_embedding ON public.embeddings USING btree (entity_type, entity_id)"
+    },
+    {
+      "table": "institution_staff",
+      "index": "idx_institution_staff_inst_role",
+      "definition": "CREATE INDEX idx_institution_staff_inst_role ON public.institution_staff USING btree (institution_id, staff_role)"
+    },
+    {
+      "table": "institution_staff",
+      "index": "institution_staff_pkey",
+      "definition": "CREATE UNIQUE INDEX institution_staff_pkey ON public.institution_staff USING btree (id)"
+    },
+    {
+      "table": "institution_staff",
+      "index": "ix_institution_staff_institution_id",
+      "definition": "CREATE INDEX ix_institution_staff_institution_id ON public.institution_staff USING btree (institution_id)"
+    },
+    {
+      "table": "institution_staff",
+      "index": "ix_institution_staff_user_id",
+      "definition": "CREATE UNIQUE INDEX ix_institution_staff_user_id ON public.institution_staff USING btree (user_id)"
+    },
+    {
+      "table": "institutions",
+      "index": "idx_institutions_code",
+      "definition": "CREATE INDEX idx_institutions_code ON public.institutions USING btree (code)"
+    },
+    {
+      "table": "institutions",
+      "index": "idx_institutions_state_city",
+      "definition": "CREATE INDEX idx_institutions_state_city ON public.institutions USING btree (state, city)"
+    },
+    {
+      "table": "institutions",
+      "index": "institutions_pkey",
+      "definition": "CREATE UNIQUE INDEX institutions_pkey ON public.institutions USING btree (id)"
+    },
+    {
+      "table": "institutions",
+      "index": "ix_institutions_code",
+      "definition": "CREATE UNIQUE INDEX ix_institutions_code ON public.institutions USING btree (code)"
+    },
+    {
+      "table": "internship_evaluations",
+      "index": "idx_internship_evaluations_internship",
+      "definition": "CREATE INDEX idx_internship_evaluations_internship ON public.internship_evaluations USING btree (internship_id)"
+    },
+    {
+      "table": "internship_evaluations",
+      "index": "internship_evaluations_pkey",
+      "definition": "CREATE UNIQUE INDEX internship_evaluations_pkey ON public.internship_evaluations USING btree (id)"
+    },
+    {
+      "table": "internship_evaluations",
+      "index": "ix_internship_evaluations_internship_id",
+      "definition": "CREATE UNIQUE INDEX ix_internship_evaluations_internship_id ON public.internship_evaluations USING btree (internship_id)"
+    },
+    {
+      "table": "internship_progress",
+      "index": "idx_internship_progress_internship",
+      "definition": "CREATE INDEX idx_internship_progress_internship ON public.internship_progress USING btree (internship_id)"
+    },
+    {
+      "table": "internship_progress",
+      "index": "internship_progress_pkey",
+      "definition": "CREATE UNIQUE INDEX internship_progress_pkey ON public.internship_progress USING btree (id)"
+    },
+    {
+      "table": "internship_progress",
+      "index": "ix_internship_progress_internship_id",
+      "definition": "CREATE INDEX ix_internship_progress_internship_id ON public.internship_progress USING btree (internship_id)"
+    },
+    {
+      "table": "internship_progress",
+      "index": "uq_internship_week_report",
+      "definition": "CREATE UNIQUE INDEX uq_internship_week_report ON public.internship_progress USING btree (internship_id, week_number)"
+    },
+    {
+      "table": "internships",
+      "index": "idx_internships_company",
+      "definition": "CREATE INDEX idx_internships_company ON public.internships USING btree (company_id)"
+    },
+    {
+      "table": "internships",
+      "index": "idx_internships_student",
+      "definition": "CREATE INDEX idx_internships_student ON public.internships USING btree (student_id)"
+    },
+    {
+      "table": "internships",
+      "index": "idx_internships_supervisor",
+      "definition": "CREATE INDEX idx_internships_supervisor ON public.internships USING btree (supervisor_user_id)"
+    },
+    {
+      "table": "internships",
+      "index": "internships_pkey",
+      "definition": "CREATE UNIQUE INDEX internships_pkey ON public.internships USING btree (id)"
+    },
+    {
+      "table": "internships",
+      "index": "ix_internships_supervisor_user_id",
+      "definition": "CREATE INDEX ix_internships_supervisor_user_id ON public.internships USING btree (supervisor_user_id)"
+    },
+    {
+      "table": "mentor_connections",
+      "index": "idx_mentor_conn_mentor",
+      "definition": "CREATE INDEX idx_mentor_conn_mentor ON public.mentor_connections USING btree (mentor_user_id)"
+    },
+    {
+      "table": "mentor_connections",
+      "index": "idx_mentor_conn_student",
+      "definition": "CREATE INDEX idx_mentor_conn_student ON public.mentor_connections USING btree (student_id)"
+    },
+    {
+      "table": "mentor_connections",
+      "index": "ix_mentor_connections_mentor_user_id",
+      "definition": "CREATE INDEX ix_mentor_connections_mentor_user_id ON public.mentor_connections USING btree (mentor_user_id)"
+    },
+    {
+      "table": "mentor_connections",
+      "index": "ix_mentor_connections_student_id",
+      "definition": "CREATE INDEX ix_mentor_connections_student_id ON public.mentor_connections USING btree (student_id)"
+    },
+    {
+      "table": "mentor_connections",
+      "index": "mentor_connections_pkey",
+      "definition": "CREATE UNIQUE INDEX mentor_connections_pkey ON public.mentor_connections USING btree (id)"
+    },
+    {
+      "table": "mentor_connections",
+      "index": "uq_student_mentor_connection",
+      "definition": "CREATE UNIQUE INDEX uq_student_mentor_connection ON public.mentor_connections USING btree (student_id, mentor_user_id)"
+    },
+    {
+      "table": "mentorship_sessions",
+      "index": "idx_mentorship_sessions_conn",
+      "definition": "CREATE INDEX idx_mentorship_sessions_conn ON public.mentorship_sessions USING btree (connection_id)"
+    },
+    {
+      "table": "mentorship_sessions",
+      "index": "idx_mentorship_sessions_time",
+      "definition": "CREATE INDEX idx_mentorship_sessions_time ON public.mentorship_sessions USING btree (scheduled_at)"
+    },
+    {
+      "table": "mentorship_sessions",
+      "index": "ix_mentorship_sessions_connection_id",
+      "definition": "CREATE INDEX ix_mentorship_sessions_connection_id ON public.mentorship_sessions USING btree (connection_id)"
+    },
+    {
+      "table": "mentorship_sessions",
+      "index": "ix_mentorship_sessions_scheduled_at",
+      "definition": "CREATE INDEX ix_mentorship_sessions_scheduled_at ON public.mentorship_sessions USING btree (scheduled_at)"
+    },
+    {
+      "table": "mentorship_sessions",
+      "index": "mentorship_sessions_pkey",
+      "definition": "CREATE UNIQUE INDEX mentorship_sessions_pkey ON public.mentorship_sessions USING btree (id)"
+    },
+    {
+      "table": "notifications",
+      "index": "idx_notifications_user_read",
+      "definition": "CREATE INDEX idx_notifications_user_read ON public.notifications USING btree (user_id, is_read, created_at DESC)"
+    },
+    {
+      "table": "notifications",
+      "index": "ix_notifications_user_id",
+      "definition": "CREATE INDEX ix_notifications_user_id ON public.notifications USING btree (user_id)"
+    },
+    {
+      "table": "notifications",
+      "index": "notifications_pkey",
+      "definition": "CREATE UNIQUE INDEX notifications_pkey ON public.notifications USING btree (id)"
+    },
+    {
+      "table": "opportunities",
+      "index": "idx_opportunities_company",
+      "definition": "CREATE INDEX idx_opportunities_company ON public.opportunities USING btree (company_id)"
+    },
+    {
+      "table": "opportunities",
+      "index": "idx_opportunities_status_deadline",
+      "definition": "CREATE INDEX idx_opportunities_status_deadline ON public.opportunities USING btree (status, application_deadline)"
+    },
+    {
+      "table": "opportunities",
+      "index": "ix_opportunities_company_id",
+      "definition": "CREATE INDEX ix_opportunities_company_id ON public.opportunities USING btree (company_id)"
+    },
+    {
+      "table": "opportunities",
+      "index": "opportunities_pkey",
+      "definition": "CREATE UNIQUE INDEX opportunities_pkey ON public.opportunities USING btree (id)"
+    },
+    {
+      "table": "opportunity_skills",
+      "index": "idx_opp_skills_opp_id",
+      "definition": "CREATE INDEX idx_opp_skills_opp_id ON public.opportunity_skills USING btree (opportunity_id)"
+    },
+    {
+      "table": "opportunity_skills",
+      "index": "opportunity_skills_pkey",
+      "definition": "CREATE UNIQUE INDEX opportunity_skills_pkey ON public.opportunity_skills USING btree (id)"
+    },
+    {
+      "table": "opportunity_skills",
+      "index": "uq_opportunity_skill",
+      "definition": "CREATE UNIQUE INDEX uq_opportunity_skill ON public.opportunity_skills USING btree (opportunity_id, skill_id)"
+    },
+    {
+      "table": "peer_skill_requests",
+      "index": "idx_peer_skill_req_skill",
+      "definition": "CREATE INDEX idx_peer_skill_req_skill ON public.peer_skill_requests USING btree (skill_id)"
+    },
+    {
+      "table": "peer_skill_requests",
+      "index": "idx_peer_skill_req_status",
+      "definition": "CREATE INDEX idx_peer_skill_req_status ON public.peer_skill_requests USING btree (status)"
+    },
+    {
+      "table": "peer_skill_requests",
+      "index": "ix_peer_skill_requests_skill_id",
+      "definition": "CREATE INDEX ix_peer_skill_requests_skill_id ON public.peer_skill_requests USING btree (skill_id)"
+    },
+    {
+      "table": "peer_skill_requests",
+      "index": "ix_peer_skill_requests_status",
+      "definition": "CREATE INDEX ix_peer_skill_requests_status ON public.peer_skill_requests USING btree (status)"
+    },
+    {
+      "table": "peer_skill_requests",
+      "index": "peer_skill_requests_pkey",
+      "definition": "CREATE UNIQUE INDEX peer_skill_requests_pkey ON public.peer_skill_requests USING btree (id)"
+    },
+    {
+      "table": "placement_interactions",
+      "index": "idx_placement_interactions_opp",
+      "definition": "CREATE INDEX idx_placement_interactions_opp ON public.placement_interactions USING btree (opportunity_id)"
+    },
+    {
+      "table": "placement_interactions",
+      "index": "idx_placement_interactions_schedule",
+      "definition": "CREATE INDEX idx_placement_interactions_schedule ON public.placement_interactions USING btree (scheduled_at)"
+    },
+    {
+      "table": "placement_interactions",
+      "index": "ix_placement_interactions_opportunity_id",
+      "definition": "CREATE INDEX ix_placement_interactions_opportunity_id ON public.placement_interactions USING btree (opportunity_id)"
+    },
+    {
+      "table": "placement_interactions",
+      "index": "ix_placement_interactions_scheduled_at",
+      "definition": "CREATE INDEX ix_placement_interactions_scheduled_at ON public.placement_interactions USING btree (scheduled_at)"
+    },
+    {
+      "table": "placement_interactions",
+      "index": "placement_interactions_pkey",
+      "definition": "CREATE UNIQUE INDEX placement_interactions_pkey ON public.placement_interactions USING btree (id)"
+    },
+    {
+      "table": "placement_records",
+      "index": "idx_placement_records_institution",
+      "definition": "CREATE INDEX idx_placement_records_institution ON public.placement_records USING btree (institution_id)"
+    },
+    {
+      "table": "placement_records",
+      "index": "idx_placement_records_student",
+      "definition": "CREATE INDEX idx_placement_records_student ON public.placement_records USING btree (student_id)"
+    },
+    {
+      "table": "placement_records",
+      "index": "ix_placement_records_institution_id",
+      "definition": "CREATE INDEX ix_placement_records_institution_id ON public.placement_records USING btree (institution_id)"
+    },
+    {
+      "table": "placement_records",
+      "index": "ix_placement_records_student_id",
+      "definition": "CREATE INDEX ix_placement_records_student_id ON public.placement_records USING btree (student_id)"
+    },
+    {
+      "table": "placement_records",
+      "index": "placement_records_pkey",
+      "definition": "CREATE UNIQUE INDEX placement_records_pkey ON public.placement_records USING btree (id)"
+    },
+    {
+      "table": "portfolio_items",
+      "index": "idx_portfolio_items_student",
+      "definition": "CREATE INDEX idx_portfolio_items_student ON public.portfolio_items USING btree (student_id)"
+    },
+    {
+      "table": "portfolio_items",
+      "index": "ix_portfolio_items_student_id",
+      "definition": "CREATE INDEX ix_portfolio_items_student_id ON public.portfolio_items USING btree (student_id)"
+    },
+    {
+      "table": "portfolio_items",
+      "index": "portfolio_items_pkey",
+      "definition": "CREATE UNIQUE INDEX portfolio_items_pkey ON public.portfolio_items USING btree (id)"
+    },
+    {
+      "table": "recognitions",
+      "index": "idx_recognitions_student",
+      "definition": "CREATE INDEX idx_recognitions_student ON public.recognitions USING btree (student_id)"
+    },
+    {
+      "table": "recognitions",
+      "index": "ix_recognitions_student_id",
+      "definition": "CREATE INDEX ix_recognitions_student_id ON public.recognitions USING btree (student_id)"
+    },
+    {
+      "table": "recognitions",
+      "index": "recognitions_pkey",
+      "definition": "CREATE UNIQUE INDEX recognitions_pkey ON public.recognitions USING btree (id)"
+    },
+    {
+      "table": "recognitions",
+      "index": "recognitions_verification_hash_key",
+      "definition": "CREATE UNIQUE INDEX recognitions_verification_hash_key ON public.recognitions USING btree (verification_hash)"
+    },
+    {
+      "table": "resume_versions",
+      "index": "idx_resume_versions_student",
+      "definition": "CREATE INDEX idx_resume_versions_student ON public.resume_versions USING btree (student_id)"
+    },
+    {
+      "table": "resume_versions",
+      "index": "ix_resume_versions_student_id",
+      "definition": "CREATE INDEX ix_resume_versions_student_id ON public.resume_versions USING btree (student_id)"
+    },
+    {
+      "table": "resume_versions",
+      "index": "resume_versions_pkey",
+      "definition": "CREATE UNIQUE INDEX resume_versions_pkey ON public.resume_versions USING btree (id)"
+    },
+    {
+      "table": "roadmap_items",
+      "index": "idx_roadmap_items_roadmap",
+      "definition": "CREATE INDEX idx_roadmap_items_roadmap ON public.roadmap_items USING btree (roadmap_id)"
+    },
+    {
+      "table": "roadmap_items",
+      "index": "roadmap_items_pkey",
+      "definition": "CREATE UNIQUE INDEX roadmap_items_pkey ON public.roadmap_items USING btree (id)"
+    },
+    {
+      "table": "roadmap_items",
+      "index": "uq_roadmap_item_order",
+      "definition": "CREATE UNIQUE INDEX uq_roadmap_item_order ON public.roadmap_items USING btree (roadmap_id, step_order)"
+    },
+    {
+      "table": "roadmaps",
+      "index": "idx_roadmaps_student",
+      "definition": "CREATE INDEX idx_roadmaps_student ON public.roadmaps USING btree (student_id)"
+    },
+    {
+      "table": "roadmaps",
+      "index": "roadmaps_pkey",
+      "definition": "CREATE UNIQUE INDEX roadmaps_pkey ON public.roadmaps USING btree (id)"
+    },
+    {
+      "table": "skill_evidence",
+      "index": "idx_skill_evidence_ref",
+      "definition": "CREATE INDEX idx_skill_evidence_ref ON public.skill_evidence USING btree (evidence_type, reference_id)"
+    },
+    {
+      "table": "skill_evidence",
+      "index": "idx_skill_evidence_student_skill",
+      "definition": "CREATE INDEX idx_skill_evidence_student_skill ON public.skill_evidence USING btree (student_skill_id)"
+    },
+    {
+      "table": "skill_evidence",
+      "index": "skill_evidence_pkey",
+      "definition": "CREATE UNIQUE INDEX skill_evidence_pkey ON public.skill_evidence USING btree (id)"
+    },
+    {
+      "table": "skill_gaps",
+      "index": "idx_skill_gaps_student_role",
+      "definition": "CREATE INDEX idx_skill_gaps_student_role ON public.skill_gaps USING btree (student_id, career_role_id)"
+    },
+    {
+      "table": "skill_gaps",
+      "index": "skill_gaps_pkey",
+      "definition": "CREATE UNIQUE INDEX skill_gaps_pkey ON public.skill_gaps USING btree (id)"
+    },
+    {
+      "table": "skill_gaps",
+      "index": "uq_student_role_skill_gap",
+      "definition": "CREATE UNIQUE INDEX uq_student_role_skill_gap ON public.skill_gaps USING btree (student_id, career_role_id, skill_id)"
+    },
+    {
+      "table": "skill_relationships",
+      "index": "idx_skill_rel_child",
+      "definition": "CREATE INDEX idx_skill_rel_child ON public.skill_relationships USING btree (child_skill_id)"
+    },
+    {
+      "table": "skill_relationships",
+      "index": "idx_skill_rel_parent",
+      "definition": "CREATE INDEX idx_skill_rel_parent ON public.skill_relationships USING btree (parent_skill_id)"
+    },
+    {
+      "table": "skill_relationships",
+      "index": "skill_relationships_pkey",
+      "definition": "CREATE UNIQUE INDEX skill_relationships_pkey ON public.skill_relationships USING btree (id)"
+    },
+    {
+      "table": "skill_relationships",
+      "index": "uq_skill_relationship",
+      "definition": "CREATE UNIQUE INDEX uq_skill_relationship ON public.skill_relationships USING btree (parent_skill_id, child_skill_id, relationship_type)"
+    },
+    {
+      "table": "skills",
+      "index": "idx_skills_category",
+      "definition": "CREATE INDEX idx_skills_category ON public.skills USING btree (category)"
+    },
+    {
+      "table": "skills",
+      "index": "idx_skills_slug",
+      "definition": "CREATE INDEX idx_skills_slug ON public.skills USING btree (slug)"
+    },
+    {
+      "table": "skills",
+      "index": "ix_skills_category",
+      "definition": "CREATE INDEX ix_skills_category ON public.skills USING btree (category)"
+    },
+    {
+      "table": "skills",
+      "index": "ix_skills_slug",
+      "definition": "CREATE UNIQUE INDEX ix_skills_slug ON public.skills USING btree (slug)"
+    },
+    {
+      "table": "skills",
+      "index": "skills_name_key",
+      "definition": "CREATE UNIQUE INDEX skills_name_key ON public.skills USING btree (name)"
+    },
+    {
+      "table": "skills",
+      "index": "skills_pkey",
+      "definition": "CREATE UNIQUE INDEX skills_pkey ON public.skills USING btree (id)"
+    },
+    {
+      "table": "student_skills",
+      "index": "idx_student_skills_lookup",
+      "definition": "CREATE INDEX idx_student_skills_lookup ON public.student_skills USING btree (student_id, skill_id)"
+    },
+    {
+      "table": "student_skills",
+      "index": "idx_student_skills_status",
+      "definition": "CREATE INDEX idx_student_skills_status ON public.student_skills USING btree (verification_status)"
+    },
+    {
+      "table": "student_skills",
+      "index": "student_skills_pkey",
+      "definition": "CREATE UNIQUE INDEX student_skills_pkey ON public.student_skills USING btree (id)"
+    },
+    {
+      "table": "student_skills",
+      "index": "uq_student_skill",
+      "definition": "CREATE UNIQUE INDEX uq_student_skill ON public.student_skills USING btree (student_id, skill_id)"
+    },
+    {
+      "table": "students",
+      "index": "idx_students_graduation_year",
+      "definition": "CREATE INDEX idx_students_graduation_year ON public.students USING btree (graduation_year)"
+    },
+    {
+      "table": "students",
+      "index": "idx_students_institution_dept",
+      "definition": "CREATE INDEX idx_students_institution_dept ON public.students USING btree (institution_id, department_id)"
+    },
+    {
+      "table": "students",
+      "index": "idx_students_target_role",
+      "definition": "CREATE INDEX idx_students_target_role ON public.students USING btree (target_career_role_id)"
+    },
+    {
+      "table": "students",
+      "index": "ix_students_graduation_year",
+      "definition": "CREATE INDEX ix_students_graduation_year ON public.students USING btree (graduation_year)"
+    },
+    {
+      "table": "students",
+      "index": "ix_students_target_career_role_id",
+      "definition": "CREATE INDEX ix_students_target_career_role_id ON public.students USING btree (target_career_role_id)"
+    },
+    {
+      "table": "students",
+      "index": "ix_students_user_id",
+      "definition": "CREATE UNIQUE INDEX ix_students_user_id ON public.students USING btree (user_id)"
+    },
+    {
+      "table": "students",
+      "index": "students_pkey",
+      "definition": "CREATE UNIQUE INDEX students_pkey ON public.students USING btree (id)"
+    },
+    {
+      "table": "students",
+      "index": "uq_institution_student_roll",
+      "definition": "CREATE UNIQUE INDEX uq_institution_student_roll ON public.students USING btree (institution_id, roll_number)"
+    },
+    {
+      "table": "teachers",
+      "index": "idx_teachers_institution_dept",
+      "definition": "CREATE INDEX idx_teachers_institution_dept ON public.teachers USING btree (institution_id, department_id)"
+    },
+    {
+      "table": "teachers",
+      "index": "idx_teachers_is_trainer",
+      "definition": "CREATE INDEX idx_teachers_is_trainer ON public.teachers USING btree (is_trainer)"
+    },
+    {
+      "table": "teachers",
+      "index": "ix_teachers_user_id",
+      "definition": "CREATE UNIQUE INDEX ix_teachers_user_id ON public.teachers USING btree (user_id)"
+    },
+    {
+      "table": "teachers",
+      "index": "teachers_pkey",
+      "definition": "CREATE UNIQUE INDEX teachers_pkey ON public.teachers USING btree (id)"
+    },
+    {
+      "table": "training_enrollments",
+      "index": "idx_training_enrollments_student",
+      "definition": "CREATE INDEX idx_training_enrollments_student ON public.training_enrollments USING btree (student_id)"
+    },
+    {
+      "table": "training_enrollments",
+      "index": "ix_training_enrollments_student_id",
+      "definition": "CREATE INDEX ix_training_enrollments_student_id ON public.training_enrollments USING btree (student_id)"
+    },
+    {
+      "table": "training_enrollments",
+      "index": "training_enrollments_pkey",
+      "definition": "CREATE UNIQUE INDEX training_enrollments_pkey ON public.training_enrollments USING btree (id)"
+    },
+    {
+      "table": "training_enrollments",
+      "index": "uq_training_enrollment",
+      "definition": "CREATE UNIQUE INDEX uq_training_enrollment ON public.training_enrollments USING btree (training_program_id, student_id)"
+    },
+    {
+      "table": "training_programs",
+      "index": "idx_training_programs_dates",
+      "definition": "CREATE INDEX idx_training_programs_dates ON public.training_programs USING btree (start_date, end_date)"
+    },
+    {
+      "table": "training_programs",
+      "index": "idx_training_programs_institution",
+      "definition": "CREATE INDEX idx_training_programs_institution ON public.training_programs USING btree (institution_id)"
+    },
+    {
+      "table": "training_programs",
+      "index": "ix_training_programs_institution_id",
+      "definition": "CREATE INDEX ix_training_programs_institution_id ON public.training_programs USING btree (institution_id)"
+    },
+    {
+      "table": "training_programs",
+      "index": "training_programs_pkey",
+      "definition": "CREATE UNIQUE INDEX training_programs_pkey ON public.training_programs USING btree (id)"
+    },
+    {
+      "table": "user_profiles",
+      "index": "ix_user_profiles_user_id",
+      "definition": "CREATE UNIQUE INDEX ix_user_profiles_user_id ON public.user_profiles USING btree (user_id)"
+    },
+    {
+      "table": "user_profiles",
+      "index": "user_profiles_pkey",
+      "definition": "CREATE UNIQUE INDEX user_profiles_pkey ON public.user_profiles USING btree (id)"
+    },
+    {
+      "table": "users",
+      "index": "ix_users_email",
+      "definition": "CREATE UNIQUE INDEX ix_users_email ON public.users USING btree (email)"
+    },
+    {
+      "table": "users",
+      "index": "ix_users_role",
+      "definition": "CREATE INDEX ix_users_role ON public.users USING btree (role)"
+    },
+    {
+      "table": "users",
+      "index": "ix_users_username",
+      "definition": "CREATE UNIQUE INDEX ix_users_username ON public.users USING btree (username)"
+    },
+    {
+      "table": "users",
+      "index": "users_pkey",
+      "definition": "CREATE UNIQUE INDEX users_pkey ON public.users USING btree (id)"
+    }
+  ],
+  "vector_column": [
+    "embedding_vector",
+    "vector",
+    "USER-DEFINED"
+  ],
+  "hnsw_index": [
+    "idx_embeddings_cosine",
+    "CREATE INDEX idx_embeddings_cosine ON public.embeddings USING hnsw (embedding_vector vector_cosine_ops)"
+  ],
+  "columns_by_table": {
+    "activities": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "activity_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "start_time",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "end_time",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "location_or_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "conducted_by_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "application_status_history": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "application_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "notes",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "changed_by_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "applications": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "opportunity_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "resume_version_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "cover_letter",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "current_status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'APPLIED'::character varying"
+      },
+      {
+        "name": "applied_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "assessment_attempts": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "assessment_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "score",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "percentage",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "is_passed",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "responses",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "started_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "completed_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      }
+    ],
+    "assessment_questions": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "assessment_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "question_text",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "question_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "options",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "correct_answer",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "points",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": "1"
+      },
+      {
+        "name": "question_order",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      }
+    ],
+    "assessments": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "target_skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "assessment_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "total_questions",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "duration_minutes",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "passing_score",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "default": "60.00"
+      },
+      {
+        "name": "company_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_by_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "is_active",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "true"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "career_role_skills": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "career_role_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "required_level",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "importance_level",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'CORE'::character varying"
+      }
+    ],
+    "career_roles": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "slug",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "industry_domain",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "is_active",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "true"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "community_comments": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "post_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "author_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "parent_comment_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "content",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "community_posts": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "author_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "content",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "post_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'GENERAL'::character varying"
+      },
+      {
+        "name": "tags",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "upvotes_count",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": "0"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "companies": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "industry_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "company_size",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "website",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "logo_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "headquarters",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "is_verified",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "false"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "company_users": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "company_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "designation",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "hr_role",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'RECRUITER'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "competition_participants": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "competition_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "registration_date",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "submission_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "score",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "rank",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "award_title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "certificate_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      }
+    ],
+    "competition_team_members": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "team_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "member_role",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'DEVELOPER'::character varying"
+      },
+      {
+        "name": "joined_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "competition_teams": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "competition_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "team_name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "team_leader_student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "submission_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "submission_notes",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "score",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "rank",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "award_title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "competitions": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "slug",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "organizer_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "company_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "banner_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "track_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'BOTH'::character varying"
+      },
+      {
+        "name": "max_team_size",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": "4"
+      },
+      {
+        "name": "registration_deadline",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "start_date",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "end_date",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "rules",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "prizes",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'UPCOMING'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "departments": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "code",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "embeddings": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "entity_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "entity_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "embedding_vector",
+        "data_type": "USER-DEFINED",
+        "udt_name": "vector",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "model_name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'text-embedding-3-small'::character varying"
+      },
+      {
+        "name": "model_version",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": "'1.0'::character varying"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "institution_staff": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "staff_role",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "employee_id",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "institutions": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "code",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "institution_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'COLLEGE'::character varying"
+      },
+      {
+        "name": "website",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "logo_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "address",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "city",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "state",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "country",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'India'::character varying"
+      },
+      {
+        "name": "is_accredited",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "true"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "internship_evaluations": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "internship_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "evaluator_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "technical_rating",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "soft_skills_rating",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "punctuality_rating",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "overall_feedback",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "is_verified",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "true"
+      },
+      {
+        "name": "evaluated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "internship_progress": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "internship_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "week_number",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "report_text",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "mentor_feedback",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "submitted_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "internships": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "company_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "opportunity_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "supervisor_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "supervisor_name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "supervisor_email",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "start_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "end_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "stipend",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'ONGOING'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "mentor_connections": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "mentor_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'PENDING'::character varying"
+      },
+      {
+        "name": "request_note",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "connected_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "mentorship_sessions": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "connection_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "topic",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "scheduled_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "duration_minutes",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": "45"
+      },
+      {
+        "name": "meeting_link",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "session_notes",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "feedback_rating",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'SCHEDULED'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "notifications": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "message",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "notification_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "reference_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "reference_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "is_read",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "false"
+      },
+      {
+        "name": "read_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "opportunities": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "company_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "role_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "location",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "is_remote",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "false"
+      },
+      {
+        "name": "stipend_salary",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "duration_months",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "openings_count",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": "1"
+      },
+      {
+        "name": "eligibility_criteria",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "application_deadline",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'OPEN'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "opportunity_skills": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "opportunity_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "required_proficiency",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'INTERMEDIATE'::character varying"
+      },
+      {
+        "name": "is_mandatory",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "true"
+      }
+    ],
+    "peer_skill_requests": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "requester_student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "helper_student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "request_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'OPEN'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "placement_interactions": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "opportunity_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "interaction_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "scheduled_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "meeting_link",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "conducted_by_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "placement_records": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "company_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "opportunity_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "package_lpa",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "offer_letter_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "offer_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "joining_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'OFFERED'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "portfolio_items": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "item_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "repository_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "live_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "role_in_project",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "start_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "end_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "is_featured",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "false"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "recognitions": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "issuer_name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "issuer_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "badge_icon",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "issued_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "verification_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "resume_versions": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "file_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "parsed_content",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "target_role_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "roadmap_items": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "roadmap_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "step_order",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "resource_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "estimated_hours",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'PENDING'::character varying"
+      },
+      {
+        "name": "completed_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "YES",
+        "default": null
+      }
+    ],
+    "roadmaps": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "career_role_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'ACTIVE'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "skill_evidence": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "evidence_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "reference_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "verified_by_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "verified_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "skill_gaps": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "career_role_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "current_level",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'NONE'::character varying"
+      },
+      {
+        "name": "target_level",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "gap_score",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "calculated_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "skill_relationships": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "parent_skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "child_skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "relationship_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      }
+    ],
+    "skills": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "slug",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "category",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "is_verified",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "true"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "student_skills": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "skill_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "proficiency_level",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'BEGINNER'::character varying"
+      },
+      {
+        "name": "verification_status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'SELF_REPORTED'::character varying"
+      },
+      {
+        "name": "score",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "confidence_score",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "last_assessed_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "students": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "department_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "roll_number",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "enrollment_year",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "graduation_year",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "current_semester",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "cgpa",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "target_career_role_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "teachers": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "department_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "designation",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "employee_id",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "specialization",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "is_trainer",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "false"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "training_enrollments": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "training_program_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "student_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "enrollment_date",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "attendance_percentage",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "default": "0.00"
+      },
+      {
+        "name": "completion_status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'ENROLLED'::character varying"
+      },
+      {
+        "name": "certificate_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      }
+    ],
+    "training_programs": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "title",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "program_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "institution_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "company_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "conducted_by_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "start_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "end_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "capacity",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "'UPCOMING'::character varying"
+      },
+      {
+        "name": "created_at",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "user_profiles": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "first_name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "last_name",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "avatar_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "phone",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "bio",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "city",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "state",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "country",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "default": "'India'::character varying"
+      },
+      {
+        "name": "linkedin_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "github_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "website_url",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ],
+    "users": [
+      {
+        "name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "name": "email",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "username",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "hashed_password",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "role",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "name": "is_active",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "true"
+      },
+      {
+        "name": "is_verified",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "default": "false"
+      },
+      {
+        "name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "name": "updated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "default": "now()"
+      }
+    ]
+  }
+}
