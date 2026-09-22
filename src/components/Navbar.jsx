@@ -63,14 +63,12 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-3 sm:top-4 z-50 w-full px-3 sm:px-6">
-      <div className="max-w-6xl mx-auto bg-white/95 backdrop-blur-md rounded-full border border-slate-200/90 shadow-md shadow-slate-200/50 px-4 sm:px-6 py-2.5 flex items-center justify-between transition-all">
+      <div className="max-w-6xl mx-auto bg-white/95 backdrop-blur-md rounded-full border border-slate-200/90 shadow-[0_4px_25px_-5px_rgba(0,0,0,0.06)] px-5 sm:px-7 py-2.5 flex items-center justify-between transition-all">
         
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2 group shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:bg-blue-700 transition-colors">
-            <Network className="w-4 h-4" />
-          </div>
-          <span className="text-lg font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+          <Network className="w-5 h-5 text-blue-600 group-hover:scale-105 transition-transform" />
+          <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
             SKILLY
           </span>
         </Link>
@@ -84,7 +82,7 @@ export default function Navbar() {
               className={({ isActive }) =>
                 `px-3 py-1.5 rounded-full text-xs xl:text-sm font-medium transition-colors ${
                   isActive
-                    ? 'text-blue-600 font-bold bg-blue-50/80'
+                    ? 'text-slate-900 font-semibold bg-slate-100/90'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`
               }
@@ -95,7 +93,7 @@ export default function Navbar() {
         </nav>
 
         {/* Right Action Controls */}
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2.5">
           
           {/* Search Button / Input */}
           <div className="relative">
@@ -122,7 +120,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Open search"
-                className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
+                className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
                 title="Search platform"
               >
                 <Search className="w-4 h-4" />
@@ -134,13 +132,11 @@ export default function Navbar() {
           <button
             onClick={toggleDarkMode}
             aria-label="Toggle theme"
-            className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
+            className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
             title="Toggle theme appearance"
           >
             {isDarkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4" />}
           </button>
-
-          <div className="h-4 w-px bg-slate-200 mx-1"></div>
 
           {/* Auth Dependent Controls */}
           {isAuthenticated ? (
@@ -161,16 +157,16 @@ export default function Navbar() {
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ml-1">
               <Link 
                 to="/login" 
-                className="text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-full hover:bg-slate-100 transition-colors"
+                className="text-xs sm:text-sm font-semibold text-slate-800 hover:text-slate-900 border border-slate-200/90 hover:bg-slate-50 px-4 py-1.5 rounded-full transition-all"
               >
                 Log In
               </Link>
               <Link 
                 to="/register" 
-                className="text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full shadow-sm transition-all"
+                className="text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-5 py-1.5 rounded-full shadow-xs transition-all"
               >
                 Sign Up
               </Link>
@@ -241,4 +237,5 @@ export default function Navbar() {
     </header>
   );
 }
+
 
