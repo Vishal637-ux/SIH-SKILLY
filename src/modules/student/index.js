@@ -16,6 +16,8 @@ export { default as StudentPlacementWorkspace } from './components/StudentPlacem
 export { default as StudentMentorshipWorkspace } from './components/StudentMentorshipWorkspace';
 export { default as StudentCommunityWorkspace } from './components/StudentCommunityWorkspace';
 export { default as StudentCompetitionsWorkspace } from './components/StudentCompetitionsWorkspace';
+export { default as StudentResumeWorkspace } from './components/StudentResumeWorkspace';
+export { default as StudentPortfolioWorkspace } from './components/StudentPortfolioWorkspace';
 
 
 

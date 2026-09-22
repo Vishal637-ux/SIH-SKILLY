@@ -32,7 +32,9 @@ import {
   StudentPlacementWorkspace,
   StudentMentorshipWorkspace,
   StudentCommunityWorkspace,
-  StudentCompetitionsWorkspace
+  StudentCompetitionsWorkspace,
+  StudentResumeWorkspace,
+  StudentPortfolioWorkspace
 } from '../modules/student';
 import NotificationCenter from '../components/NotificationCenter';
 import RecommendationWorkspace from '../components/RecommendationWorkspace';
@@ -164,41 +166,15 @@ export default function Student() {
   if (path === '/student/portfolio') {
     return (
       <StudentLayout activeViewTitle="Digital Portfolio">
-        <StudentModulePlaceholder
-          title="Verified Digital Skill Portfolio"
-          subtitle="Comprehensive public and private career showcase for recruiters and employers."
-          icon={Layers}
-          domainModule="Module 10 — Portfolio & Showcase Engine"
-          domainDescription="Curate your best GitHub repositories, deployed web applications, verified certifications, research papers, and competition awards into an authoritative digital portfolio."
-          features={[
-            "Project Showcase with GitHub & Live Demo Links",
-            "Verified Skill Endorsement Seals",
-            "Interactive Timeline of Achievements",
-            "Public Shareable Portfolio URL with Privacy Controls",
-            "Direct Export to PDF & Recruiter Dossier"
-          ]}
-        />
+        <StudentPortfolioWorkspace />
       </StudentLayout>
     );
   }
 
-  if (path === '/student/resume') {
+  if (path === '/student/resume' || path === '/student/resumes') {
     return (
       <StudentLayout activeViewTitle="Resume Versions">
-        <StudentModulePlaceholder
-          title="Resume Management & Tailoring"
-          subtitle="Create and manage tailored resume versions optimized for specific career roles."
-          icon={FileText}
-          domainModule="Module 10 — Resume Engine"
-          domainDescription="Build ATS-friendly resume versions synced directly with your verified skill profile, project catalog, and academic milestones with cryptographic verification badges."
-          features={[
-            "Role-Targeted Resume Versioning",
-            "ATS Compatibility & Keyword Verification",
-            "One-Click Sync with Live Platform Portfolio",
-            "Export to PDF and JSON Resume Standards",
-            "Recruiter QR-Code Verification"
-          ]}
-        />
+        <StudentResumeWorkspace />
       </StudentLayout>
     );
   }
