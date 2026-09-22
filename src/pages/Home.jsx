@@ -318,22 +318,6 @@ export default function Home() {
             {/* CENTER MAIN HERO CARD */}
             <div className="w-full max-w-4xl shrink-0 bg-white rounded-3xl sm:rounded-[36px] border border-slate-200/90 shadow-2xl p-6 sm:p-9 relative z-20 transition-all">
               
-              {/* Internal Navigation Shortcuts */}
-              <div className="flex items-center gap-3 sm:gap-4 text-xs font-semibold text-slate-400 mb-6 pb-4 border-b border-slate-100 overflow-x-auto custom-scrollbar">
-                <Link to="/" className="text-blue-600 font-bold hover:underline">Home</Link>
-                <span>•</span>
-                <Link to="/features" className="hover:text-slate-800 transition-colors whitespace-nowrap">Features</Link>
-                <span>•</span>
-                <Link to="/how-it-works" className="hover:text-slate-800 transition-colors whitespace-nowrap">How It Works</Link>
-                <span>•</span>
-                <Link to="/for-students" className="hover:text-slate-800 transition-colors whitespace-nowrap">For Students</Link>
-                <span>•</span>
-                <Link to="/for-colleges" className="hover:text-slate-800 transition-colors whitespace-nowrap">For Colleges</Link>
-                <span>•</span>
-                <Link to="/for-industry" className="hover:text-slate-800 transition-colors whitespace-nowrap">For Industry</Link>
-                <span>•</span>
-                <Link to="/pricing" className="hover:text-slate-800 transition-colors whitespace-nowrap">Pricing</Link>
-              </div>
 
               {/* Two Column Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
