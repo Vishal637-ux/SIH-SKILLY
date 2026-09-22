@@ -73,14 +73,14 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+        {/* Desktop & Tablet Navigation Links */}
+        <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 xl:gap-2">
           {navLinks.map((link) => (
             <NavLink
               key={link.path}
               to={link.path}
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-full text-xs xl:text-sm font-medium transition-colors ${
+                `px-2.5 py-1.5 rounded-full text-[11px] lg:text-xs xl:text-sm font-medium transition-colors whitespace-nowrap ${
                   isActive
                     ? 'text-slate-900 font-semibold bg-slate-100/90'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
