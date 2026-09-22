@@ -8,7 +8,7 @@ from sqlalchemy import select, func
 from sqlalchemy.orm import selectinload
 
 from app.dependencies.database import get_db
-from app.dependencies.auth import get_current_user, require_roles
+from app.dependencies.auth import get_current_user, get_optional_user, require_roles
 from app.models.users import User, UserProfile
 from app.models.institutions import Student, Institution, Department
 from app.models.careers import CareerRole, CareerRoleSkill, SkillGap, Roadmap, RoadmapItem
@@ -1206,7 +1206,7 @@ async def get_student_skill_gaps_endpoint(
 async def get_student_opportunities(
     status: Optional[str] = Query("OPEN"),
     db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(require_roles("STUDENT")),
+    current_user: Optional[User] = Depends(get_optional_user),
 ):
     return await InternshipService.get_student_opportunities(db, current_user, status_filter=status)
 

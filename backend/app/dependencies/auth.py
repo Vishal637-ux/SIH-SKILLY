@@ -1,5 +1,5 @@
 import uuid
-from typing import List, Callable
+from typing import List, Callable, Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,6 +15,23 @@ oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/api/v1/auth/login",
     auto_error=False,
 )
+
+
+async def get_optional_user(
+    token: Optional[str] = Depends(oauth2_scheme),
+    db: AsyncSession = Depends(get_db),
+) -> Optional[User]:
+    """
+    Returns the authenticated User if a valid Bearer token is provided, else None.
+    Allows endpoints to be accessed publicly while still providing personalized
+    data when an authenticated session is active.
+    """
+    if not token:
+        return None
+    try:
+        return await get_current_user(token=token, db=db)
+    except HTTPException:
+        return None
 
 
 async def get_current_user(

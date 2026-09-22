@@ -108,20 +108,22 @@ class InternshipService:
     async def get_student_opportunities(
         cls,
         db: AsyncSession,
-        user: User,
+        user: Optional[User] = None,
         status_filter: Optional[str] = "OPEN"
     ) -> List[OpportunityStudentRead]:
-        student = await cls.get_student_context(db, user)
+        if user is not None:
+            student = await cls.get_student_context(db, user)
+            st_skills_stmt = select(StudentSkill).where(StudentSkill.student_id == student.id)
+            st_skills_res = await db.execute(st_skills_stmt)
+            student_skills_map = {s.skill_id: s.proficiency_level for s in st_skills_res.scalars().all()}
 
-        # Fetch student skills
-        st_skills_stmt = select(StudentSkill).where(StudentSkill.student_id == student.id)
-        st_skills_res = await db.execute(st_skills_stmt)
-        student_skills_map = {s.skill_id: s.proficiency_level for s in st_skills_res.scalars().all()}
-
-        # Fetch existing applications by student
-        apps_stmt = select(Application).where(Application.student_id == student.id)
-        apps_res = await db.execute(apps_stmt)
-        apps_map = {a.opportunity_id: a for a in apps_res.scalars().all()}
+            apps_stmt = select(Application).where(Application.student_id == student.id)
+            apps_res = await db.execute(apps_stmt)
+            apps_map = {a.opportunity_id: a for a in apps_res.scalars().all()}
+        else:
+            student = None
+            student_skills_map = {}
+            apps_map = {}
 
         # Fetch opportunities
         opp_stmt = (
@@ -140,8 +142,14 @@ class InternshipService:
 
         results = []
         for opp in opportunities:
-            is_eligible, reasons, pct = cls._evaluate_eligibility(student, opp, student_skills_map)
-            existing_app = apps_map.get(opp.id)
+            if student is not None:
+                is_eligible, reasons, pct = cls._evaluate_eligibility(student, opp, student_skills_map)
+                existing_app = apps_map.get(opp.id)
+            else:
+                is_eligible = True
+                reasons = ["Public Opportunity Listing"]
+                pct = 100.0
+                existing_app = None
 
             req_skills_dto = [
                 OpportunitySkillRead(

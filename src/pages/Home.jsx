@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../lib/api';
 import { 
   Award, 
   BookOpen, 
@@ -38,169 +39,50 @@ export default function Home() {
   const [activePreviewTab, setActivePreviewTab] = useState('skills');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+  const [skillsList, setSkillsList] = useState([]);
+  const [opportunitiesList, setOpportunitiesList] = useState([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
-  const topSkillsData = [
-    {
-      id: 1,
-      title: 'Full-Stack React & Node Architecture',
-      category: 'WEB',
-      level: 'Advanced',
-      learners: '3.4k enrolled',
-      demand: 'High Demand',
-      tags: ['React 18', 'Node.js', 'PostgreSQL', 'REST API'],
-      icon: Code2,
-      bg: 'bg-blue-50 text-blue-600 border-blue-200',
-    },
-    {
-      id: 2,
-      title: 'Machine Learning & Predictive Analytics',
-      category: 'AI',
-      level: 'Intermediate',
-      learners: '2.8k enrolled',
-      demand: 'Trending',
-      tags: ['Python', 'Scikit-Learn', 'Pandas', 'BigQuery'],
-      icon: LineChart,
-      bg: 'bg-indigo-50 text-indigo-600 border-indigo-200',
-    },
-    {
-      id: 3,
-      title: 'Cloud DevOps & Container Orchestration',
-      category: 'CLOUD',
-      level: 'Advanced',
-      learners: '1.9k enrolled',
-      demand: 'High Demand',
-      tags: ['Docker', 'Kubernetes', 'CI/CD', 'AWS'],
-      icon: Layers,
-      bg: 'bg-sky-50 text-sky-600 border-sky-200',
-    },
-    {
-      id: 4,
-      title: 'IoT & Embedded Systems Programming',
-      category: 'CORE',
-      level: 'Intermediate',
-      learners: '1.5k enrolled',
-      demand: 'Industry Standard',
-      tags: ['Embedded C', 'ESP32', 'Robotics', 'MQTT'],
-      icon: Cpu,
-      bg: 'bg-emerald-50 text-emerald-600 border-emerald-200',
-    },
-    {
-      id: 5,
-      title: 'UI/UX Design Systems & Prototyping',
-      category: 'DESIGN',
-      level: 'Beginner - Inter',
-      learners: '2.2k enrolled',
-      demand: 'High Demand',
-      tags: ['Figma', 'User Research', 'Design Tokens', 'Wireframes'],
-      icon: Palette,
-      bg: 'bg-purple-50 text-purple-600 border-purple-200',
-    },
-    {
-      id: 6,
-      title: 'Cybersecurity Audit & Threat Analysis',
-      category: 'SECURITY',
-      level: 'Advanced',
-      learners: '1.2k enrolled',
-      demand: 'Critical Demand',
-      tags: ['Network Audit', 'OWASP', 'Cryptography', 'Linux'],
-      icon: ShieldCheck,
-      bg: 'bg-rose-50 text-rose-600 border-rose-200',
-    },
-  ];
+  useEffect(() => {
+    let isMounted = true;
+    const fetchMarketplaceData = async () => {
+      try {
+        const [skillsRes, oppsRes] = await Promise.all([
+          api.get('/skills').catch(() => ({ data: [] })),
+          api.get('/student/opportunities').catch(() => ({ data: [] }))
+        ]);
+        if (isMounted) {
+          setSkillsList(Array.isArray(skillsRes.data) ? skillsRes.data : []);
+          setOpportunitiesList(Array.isArray(oppsRes.data) ? oppsRes.data : []);
+          setIsLoadingData(false);
+        }
+      } catch (err) {
+        if (isMounted) setIsLoadingData(false);
+      }
+    };
+    fetchMarketplaceData();
+    return () => { isMounted = false; };
+  }, []);
 
-  const activeInternshipsData = [
-    {
-      id: 1,
-      title: 'Frontend Engineering Intern',
-      company: 'Apex Tech Solutions',
-      location: 'Remote / Bangalore',
-      duration: '3 Months',
-      stipend: '₹25,000 / month',
-      type: 'Paid Internship',
-      skills: ['React', 'TypeScript', 'TailwindCSS'],
-      posted: '2 days ago',
-      verifiedLogo: '⚡',
-    },
-    {
-      id: 2,
-      title: 'AI Data Analyst Apprentice',
-      company: 'Cognitive Dynamics Lab',
-      location: 'Hybrid / Hyderabad',
-      duration: '6 Months',
-      stipend: '₹30,000 / month',
-      type: 'PPO Opportunity',
-      skills: ['Python', 'SQL', 'Data Analytics'],
-      posted: '1 day ago',
-      verifiedLogo: '🧠',
-    },
-    {
-      id: 3,
-      title: 'Cloud Systems & DevOps Intern',
-      company: 'ScaleGrid Infrastructure',
-      location: 'Remote / Pune',
-      duration: '4 Months',
-      stipend: '₹22,000 / month',
-      type: 'Paid Internship',
-      skills: ['Docker', 'Linux', 'AWS Cloud'],
-      posted: '3 days ago',
-      verifiedLogo: '☁️',
-    },
-    {
-      id: 4,
-      title: 'Embedded Firmware Developer Trainee',
-      company: 'RoboCore Automations',
-      location: 'Onsite / Chennai',
-      duration: '6 Months',
-      stipend: '₹20,000 / month',
-      type: 'Project Based',
-      skills: ['C++', 'Microcontrollers', 'IoT Protocols'],
-      posted: 'Just now',
-      verifiedLogo: '🤖',
-    }
-  ];
-
-  const placementDrivesData = [
-    {
-      id: 1,
-      company: 'Global Cloud Systems Inc.',
-      role: 'Associate Software Engineer',
-      ctc: '₹8.5 LPA - ₹12 LPA',
-      eligibility: 'B.Tech CSE/IT/ECE (Batch 2025/2026)',
-      date: 'Oct 15, 2026',
-      rounds: 'Aptitude -> Coding -> Technical -> HR',
-      status: 'Registration Open',
-      badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    },
-    {
-      id: 2,
-      company: 'FinTech Innovations Ltd.',
-      role: 'Data Engineer & Analyst',
-      ctc: '₹9.0 LPA - ₹14 LPA',
-      eligibility: 'All Engineering & MCA Streams',
-      date: 'Oct 22, 2026',
-      rounds: 'SQL Assessment -> System Design -> HR',
-      status: 'Registration Open',
-      badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    },
-    {
-      id: 3,
-      company: 'NextGen Cybersec Ops',
-      role: 'Security Analyst Trainee',
-      ctc: '₹7.5 LPA - ₹10 LPA',
-      eligibility: 'B.Tech/B.Sc IT (Min 7.0 CGPA)',
-      date: 'Nov 02, 2026',
-      rounds: 'Security Audit Challenge -> Technical Interview',
-      status: 'Upcoming Drive',
-      badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
-    }
-  ];
-
-  const filteredSkills = topSkillsData.filter(skill => {
-    const matchesCategory = selectedCategory === 'ALL' || skill.category === selectedCategory;
-    const matchesSearch = skill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          skill.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredSkills = skillsList.filter(skill => {
+    const matchesCategory = selectedCategory === 'ALL' || (skill.category || '').toUpperCase() === selectedCategory;
+    const matchesSearch = !searchQuery ||
+      (skill.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (skill.code || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (skill.category || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (skill.description || '').toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const internshipOpportunities = opportunitiesList.filter(o => 
+    !o.role_type || o.role_type.toUpperCase().includes('INTERN')
+  );
+
+  const placementOpportunities = opportunitiesList.filter(o => 
+    o.role_type && (o.role_type.toUpperCase().includes('FULL') || o.role_type.toUpperCase().includes('PLACEMENT') || o.role_type.toUpperCase().includes('JOB'))
+  ).length > 0 ? opportunitiesList.filter(o => 
+    o.role_type && (o.role_type.toUpperCase().includes('FULL') || o.role_type.toUpperCase().includes('PLACEMENT') || o.role_type.toUpperCase().includes('JOB'))
+  ) : opportunitiesList;
 
   const journeySteps = [
     { num: '01', title: 'Student Onboarding', desc: 'Profile creation, role interest & goal definition' },
@@ -582,37 +464,36 @@ export default function Home() {
               </div>
 
               {/* Skill Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredSkills.map((skill) => {
-                  const Icon = skill.icon;
-                  return (
+              {isLoadingData ? (
+                <div className="py-12 text-center text-xs font-semibold text-slate-400">Loading live skills catalog from database...</div>
+              ) : filteredSkills.length === 0 ? (
+                <div className="py-12 text-center text-xs font-semibold text-slate-500">No matching skills found in catalog.</div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredSkills.slice(0, 9).map((skill) => (
                     <div key={skill.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-5 flex flex-col justify-between hover:border-blue-300 hover:bg-white transition-all shadow-xs group">
                       <div>
                         <div className="flex items-center justify-between mb-3">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${skill.bg}`}>
-                            <Icon className="w-5 h-5" />
+                          <div className="w-10 h-10 rounded-xl flex items-center justify-center border bg-blue-50 text-blue-600 border-blue-200 font-bold text-xs">
+                            <Code2 className="w-5 h-5" />
                           </div>
-                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">
-                            {skill.demand}
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                            {skill.code || 'MASTER'}
                           </span>
                         </div>
                         <h3 className="text-base font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
-                          {skill.title}
+                          {skill.name}
                         </h3>
-                        <div className="flex items-center gap-3 text-xs text-slate-500 mb-4">
-                          <span>Level: <strong className="text-slate-700 font-semibold">{skill.level}</strong></span>
-                          <span>•</span>
-                          <span>{skill.learners}</span>
-                        </div>
+                        <p className="text-xs text-slate-500 line-clamp-2 mb-3">
+                          {skill.description || 'Master competency skill module.'}
+                        </p>
                       </div>
 
                       <div>
                         <div className="flex flex-wrap gap-1.5 mb-4">
-                          {skill.tags.map((t, i) => (
-                            <span key={i} className="text-[10px] font-medium bg-white text-slate-600 border border-slate-200 px-2 py-0.5 rounded">
-                              {t}
-                            </span>
-                          ))}
+                          <span className="text-[10px] font-medium bg-white text-slate-600 border border-slate-200 px-2 py-0.5 rounded">
+                            Category: {skill.category || 'GENERAL'}
+                          </span>
                         </div>
                         <Link to="/register" className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-700">
                           <span>Start Assessment</span>
@@ -620,13 +501,13 @@ export default function Home() {
                         </Link>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+                  ))}
+                </div>
+              )}
 
               <div className="pt-2 text-center">
                 <Link to="/skills" className="inline-flex items-center text-sm font-bold text-blue-600 hover:underline">
-                  <span>View all 120+ verified skill modules</span>
+                  <span>View all {skillsList.length} verified skill modules</span>
                   <ChevronRight className="w-4 h-4 ml-0.5" />
                 </Link>
               </div>
@@ -636,61 +517,67 @@ export default function Home() {
           {/* TAB 2: ACTIVE INTERNSHIPS PREVIEW */}
           {activePreviewTab === 'internships' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {activeInternshipsData.map((item) => (
-                  <div key={item.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:border-blue-300 hover:bg-white transition-all shadow-xs">
-                    <div>
-                      <div className="flex items-start justify-between gap-3 mb-3">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-10 h-10 rounded-xl bg-blue-100 text-slate-800 flex items-center justify-center font-bold text-lg shrink-0">
-                            {item.verifiedLogo}
+              {isLoadingData ? (
+                <div className="py-12 text-center text-xs font-semibold text-slate-400">Loading active opportunities from database...</div>
+              ) : internshipOpportunities.length === 0 ? (
+                <div className="py-12 text-center text-xs font-semibold text-slate-500">No active internship opportunities currently listed.</div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {internshipOpportunities.slice(0, 6).map((item) => (
+                    <div key={item.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:border-blue-300 hover:bg-white transition-all shadow-xs">
+                      <div>
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-10 h-10 rounded-xl bg-blue-100 text-slate-800 flex items-center justify-center font-bold text-sm shrink-0">
+                              {item.company_name ? item.company_name[0].toUpperCase() : 'C'}
+                            </div>
+                            <div>
+                              <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
+                              <p className="text-xs text-slate-600 font-medium">{item.company_name || 'Verified Company'}</p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
-                            <p className="text-xs text-slate-600 font-medium">{item.company}</p>
-                          </div>
-                        </div>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                          {item.type}
-                        </span>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 my-4 bg-white p-3 rounded-xl border border-slate-200/60">
-                        <div className="flex items-center gap-1.5">
-                          <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{item.location}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <Clock className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{item.duration}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="font-bold text-slate-800">{item.stipend}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <Zap className="w-3.5 h-3.5 text-amber-500" />
-                          <span>{item.posted}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-2 border-t border-slate-200/60">
-                      <div className="flex items-center gap-1">
-                        {item.skills.map((s, i) => (
-                          <span key={i} className="text-[10px] bg-slate-200/70 text-slate-700 font-medium px-2 py-0.5 rounded">
-                            {s}
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            {item.role_type || 'INTERNSHIP'}
                           </span>
-                        ))}
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 my-4 bg-white p-3 rounded-xl border border-slate-200/60">
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{item.is_remote ? 'Remote' : (item.location || 'Not Specified')}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{item.duration_months ? `${item.duration_months} Months` : 'N/A'}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="font-bold text-slate-800">{item.stipend_salary ? `₹${item.stipend_salary}` : 'Disclosed on selection'}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Zap className="w-3.5 h-3.5 text-amber-500" />
+                            <span>{item.status || 'Active'}</span>
+                          </div>
+                        </div>
                       </div>
-                      <Link to="/register" className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-700">
-                        <span>Apply Now</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
-                      </Link>
+
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-200/60">
+                        <div className="flex items-center gap-1 overflow-x-auto">
+                          {(item.required_skills || []).slice(0, 3).map((s, i) => (
+                            <span key={i} className="text-[10px] bg-slate-200/70 text-slate-700 font-medium px-2 py-0.5 rounded whitespace-nowrap">
+                              {s.skill_name}
+                            </span>
+                          ))}
+                        </div>
+                        <Link to="/register" className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-700 shrink-0">
+                          <span>Apply Now</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               <div className="pt-2 text-center">
                 <Link to="/internships" className="inline-flex items-center text-sm font-bold text-blue-600 hover:underline">
@@ -704,45 +591,47 @@ export default function Home() {
           {/* TAB 3: PLACEMENT DRIVES PREVIEW */}
           {activePreviewTab === 'placements' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {placementDrivesData.map((drive) => (
-                  <div key={drive.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:border-blue-300 hover:bg-white transition-all shadow-xs">
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${drive.badgeColor}`}>
-                          {drive.status}
-                        </span>
-                        <span className="text-[11px] text-slate-500 flex items-center gap-1">
-                          <Calendar className="w-3.5 h-3.5" />
-                          {drive.date}
-                        </span>
+              {isLoadingData ? (
+                <div className="py-12 text-center text-xs font-semibold text-slate-400">Loading placement drives from database...</div>
+              ) : placementOpportunities.length === 0 ? (
+                <div className="py-12 text-center text-xs font-semibold text-slate-500">No active placement drives currently listed.</div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {placementOpportunities.slice(0, 6).map((drive) => (
+                    <div key={drive.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:border-blue-300 hover:bg-white transition-all shadow-xs">
+                      <div>
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200">
+                            {drive.status || 'OPEN'}
+                          </span>
+                          <span className="text-[11px] text-slate-500 flex items-center gap-1">
+                            <Calendar className="w-3.5 h-3.5" />
+                            {drive.application_deadline ? new Date(drive.application_deadline).toLocaleDateString() : 'Open Drive'}
+                          </span>
+                        </div>
+
+                        <h3 className="text-base font-bold text-slate-900 mb-0.5">{drive.title}</h3>
+                        <p className="text-xs text-blue-600 font-bold mb-3">{drive.company_name || 'Partner Company'}</p>
+
+                        <div className="space-y-2 bg-white p-3.5 rounded-xl border border-slate-200/70 text-xs mb-4">
+                          <div>
+                            <span className="text-slate-400 font-medium">Package / Stipend:</span>
+                            <p className="font-extrabold text-slate-900 text-sm">{drive.stipend_salary ? `₹${drive.stipend_salary}` : 'As per Industry Standards'}</p>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 font-medium">Location:</span>
+                            <p className="text-slate-700 text-xs font-semibold">{drive.is_remote ? 'Remote' : (drive.location || 'Onsite')}</p>
+                          </div>
+                        </div>
                       </div>
 
-                      <h3 className="text-base font-bold text-slate-900 mb-0.5">{drive.role}</h3>
-                      <p className="text-xs text-blue-600 font-bold mb-3">{drive.company}</p>
-
-                      <div className="space-y-2 bg-white p-3.5 rounded-xl border border-slate-200/70 text-xs mb-4">
-                        <div>
-                          <span className="text-slate-400 font-medium">Package (CTC):</span>
-                          <p className="font-extrabold text-slate-900 text-sm">{drive.ctc}</p>
-                        </div>
-                        <div>
-                          <span className="text-slate-400 font-medium">Eligibility:</span>
-                          <p className="text-slate-700 text-xs font-semibold">{drive.eligibility}</p>
-                        </div>
-                        <div>
-                          <span className="text-slate-400 font-medium">Rounds:</span>
-                          <p className="text-slate-600 text-[11px]">{drive.rounds}</p>
-                        </div>
-                      </div>
+                      <Button to="/register" variant="primary" size="sm" className="w-full justify-center">
+                        Register for Drive
+                      </Button>
                     </div>
-
-                    <Button to="/register" variant="primary" size="sm" className="w-full justify-center">
-                      Register for Drive
-                    </Button>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               <div className="pt-2 text-center">
                 <Link to="/placements" className="inline-flex items-center text-sm font-bold text-blue-600 hover:underline">
