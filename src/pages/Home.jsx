@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Award, 
@@ -21,65 +21,198 @@ import {
   Target, 
   Users, 
   Building2, 
-  ArrowRight
+  ArrowRight,
+  TrendingUp,
+  MapPin,
+  Clock,
+  DollarSign,
+  Calendar,
+  CheckCircle,
+  Search,
+  Zap,
+  Star,
+  ExternalLink
 } from 'lucide-react';
 import Button from '../components/Button';
 
 export default function Home() {
-  const skillTracks = [
+  const [activePreviewTab, setActivePreviewTab] = useState('skills'); // 'skills' | 'internships' | 'placements'
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Sample live data previews
+  const topSkillsData = [
     {
-      title: 'Web Development',
-      desc: 'Frontend, backend, APIs, and modern full-stack web architecture.',
+      id: 1,
+      title: 'Full-Stack React & Node Architecture',
+      category: 'WEB',
+      level: 'Advanced',
+      learners: '3.4k enrolled',
+      demand: 'High Demand',
+      tags: ['React 18', 'Node.js', 'PostgreSQL', 'REST API'],
       icon: Code2,
-      tags: ['React', 'Node.js', 'PostgreSQL', 'APIs'],
-      color: 'text-blue-600 bg-blue-50 border-blue-200',
+      bg: 'bg-blue-50 text-blue-600 border-blue-200',
     },
     {
-      title: 'Data Science & AI',
-      desc: 'Data analysis, machine learning pipelines, predictive modeling, and AI.',
+      id: 2,
+      title: 'Machine Learning & Predictive Analytics',
+      category: 'AI',
+      level: 'Intermediate',
+      learners: '2.8k enrolled',
+      demand: 'Trending',
+      tags: ['Python', 'Scikit-Learn', 'Pandas', 'BigQuery'],
       icon: LineChart,
-      tags: ['Python', 'Machine Learning', 'SQL', 'Data Analytics'],
-      color: 'text-indigo-600 bg-indigo-50 border-indigo-200',
+      bg: 'bg-indigo-50 text-indigo-600 border-indigo-200',
     },
     {
-      title: 'Core Engineering',
-      desc: 'Embedded systems, IoT, electronics, mechanical automation, and systems.',
-      icon: Cpu,
-      tags: ['IoT', 'Embedded C', 'Robotics', 'Systems Design'],
-      color: 'text-emerald-600 bg-emerald-50 border-emerald-200',
-    },
-    {
-      title: 'Design & Product',
-      desc: 'User interface design, experience mapping, design systems, and prototyping.',
-      icon: Palette,
-      tags: ['UI/UX', 'Figma', 'Wireframing', 'Design Systems'],
-      color: 'text-purple-600 bg-purple-50 border-purple-200',
-    },
-    {
-      title: 'Cloud & DevOps',
-      desc: 'Containerization, cloud infrastructure, CI/CD automation, and scalability.',
+      id: 3,
+      title: 'Cloud DevOps & Container Orchestration',
+      category: 'CLOUD',
+      level: 'Advanced',
+      learners: '1.9k enrolled',
+      demand: 'High Demand',
+      tags: ['Docker', 'Kubernetes', 'CI/CD', 'AWS'],
       icon: Layers,
-      tags: ['Docker', 'Kubernetes', 'Cloud Services', 'CI/CD'],
-      color: 'text-sky-600 bg-sky-50 border-sky-200',
+      bg: 'bg-sky-50 text-sky-600 border-sky-200',
     },
     {
-      title: 'Cybersecurity',
-      desc: 'Network defense, security audits, authentication protocols, and compliance.',
+      id: 4,
+      title: 'IoT & Embedded Systems Programming',
+      category: 'CORE',
+      level: 'Intermediate',
+      learners: '1.5k enrolled',
+      demand: 'Industry Standard',
+      tags: ['Embedded C', 'ESP32', 'Robotics', 'MQTT'],
+      icon: Cpu,
+      bg: 'bg-emerald-50 text-emerald-600 border-emerald-200',
+    },
+    {
+      id: 5,
+      title: 'UI/UX Design Systems & Prototyping',
+      category: 'DESIGN',
+      level: 'Beginner - Inter',
+      learners: '2.2k enrolled',
+      demand: 'High Demand',
+      tags: ['Figma', 'User Research', 'Design Tokens', 'Wireframes'],
+      icon: Palette,
+      bg: 'bg-purple-50 text-purple-600 border-purple-200',
+    },
+    {
+      id: 6,
+      title: 'Cybersecurity Audit & Threat Analysis',
+      category: 'SECURITY',
+      level: 'Advanced',
+      learners: '1.2k enrolled',
+      demand: 'Critical Demand',
+      tags: ['Network Audit', 'OWASP', 'Cryptography', 'Linux'],
       icon: ShieldCheck,
-      tags: ['Network Security', 'Vulnerability Audits', 'Cryptography'],
-      color: 'text-rose-600 bg-rose-50 border-rose-200',
+      bg: 'bg-rose-50 text-rose-600 border-rose-200',
     },
   ];
 
+  const activeInternshipsData = [
+    {
+      id: 1,
+      title: 'Frontend Engineering Intern',
+      company: 'Apex Tech Solutions',
+      location: 'Remote / Bangalore',
+      duration: '3 Months',
+      stipend: '₹25,000 / month',
+      type: 'Paid Internship',
+      skills: ['React', 'TypeScript', 'TailwindCSS'],
+      posted: '2 days ago',
+      verifiedLogo: '⚡',
+    },
+    {
+      id: 2,
+      title: 'AI Data Analyst Apprentice',
+      company: 'Cognitive Dynamics Lab',
+      location: 'Hybrid / Hyderabad',
+      duration: '6 Months',
+      stipend: '₹30,000 / month',
+      type: 'PPO Opportunity',
+      skills: ['Python', 'SQL', 'Data Analytics'],
+      posted: '1 day ago',
+      verifiedLogo: '🧠',
+    },
+    {
+      id: 3,
+      title: 'Cloud Systems & DevOps Intern',
+      company: 'ScaleGrid Infrastructure',
+      location: 'Remote / Pune',
+      duration: '4 Months',
+      stipend: '₹22,000 / month',
+      type: 'Paid Internship',
+      skills: ['Docker', 'Linux', 'AWS Cloud'],
+      posted: '3 days ago',
+      verifiedLogo: '☁️',
+    },
+    {
+      id: 4,
+      title: 'Embedded Firmware Developer Trainee',
+      company: 'RoboCore Automations',
+      location: 'Onsite / Chennai',
+      duration: '6 Months',
+      stipend: '₹20,000 / month',
+      type: 'Project Based',
+      skills: ['C++', 'Microcontrollers', 'IoT Protocols'],
+      posted: 'Just now',
+      verifiedLogo: '🤖',
+    }
+  ];
+
+  const placementDrivesData = [
+    {
+      id: 1,
+      company: 'Global Cloud Systems Inc.',
+      role: 'Associate Software Engineer',
+      ctc: '₹8.5 LPA - ₹12 LPA',
+      eligibility: 'B.Tech CSE/IT/ECE (Batch 2025/2026)',
+      date: 'Oct 15, 2026',
+      rounds: 'Aptitude -> Coding -> Technical -> HR',
+      status: 'Registration Open',
+      badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    },
+    {
+      id: 2,
+      company: 'FinTech Innovations Ltd.',
+      role: 'Data Engineer & Analyst',
+      ctc: '₹9.0 LPA - ₹14 LPA',
+      eligibility: 'All Engineering & MCA Streams',
+      date: 'Oct 22, 2026',
+      rounds: 'SQL Assessment -> System Design -> HR',
+      status: 'Registration Open',
+      badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    },
+    {
+      id: 3,
+      company: 'NextGen Cybersec Ops',
+      role: 'Security Analyst Trainee',
+      ctc: '₹7.5 LPA - ₹10 LPA',
+      eligibility: 'B.Tech/B.Sc IT (Min 7.0 CGPA)',
+      date: 'Nov 02, 2026',
+      rounds: 'Security Audit Challenge -> Technical Interview',
+      status: 'Upcoming Drive',
+      badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+    }
+  ];
+
+  const filteredSkills = topSkillsData.filter(skill => {
+    const matchesCategory = selectedCategory === 'ALL' || skill.category === selectedCategory;
+    const matchesSearch = skill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          skill.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesCategory && matchesSearch;
+  });
+
   const journeySteps = [
-    { num: '01', title: 'Student Onboarding', desc: 'Profile creation and goal definition' },
-    { num: '02', title: 'Skill Assessment', desc: 'Evaluation of foundational competencies' },
-    { num: '03', title: 'Skill Gap Analysis', desc: 'Identification of missing industry skills' },
-    { num: '04', title: 'Career Roadmap', desc: 'Tailored sequential milestone trajectory' },
-    { num: '05', title: 'Guided Learning', desc: 'Targeted coursework and hands-on modules' },
-    { num: '06', title: 'Internship & Projects', desc: 'Real-world problem solving and evidence' },
-    { num: '07', title: 'Mentorship', desc: 'Guidance from alumni and industry mentors' },
-    { num: '08', title: 'Placement Match', desc: 'Opportunity discovery and interview prep' },
+    { num: '01', title: 'Student Onboarding', desc: 'Profile creation, role interest & goal definition' },
+    { num: '02', title: 'Skill Assessment', desc: 'Evaluation of foundational & core competencies' },
+    { num: '03', title: 'Skill Gap Analysis', desc: 'Identification of missing industry required skills' },
+    { num: '04', title: 'Career Roadmap', desc: 'Tailored sequential milestone learning path' },
+    { num: '05', title: 'Guided Learning', desc: 'Targeted coursework, coding labs & assignments' },
+    { num: '06', title: 'Internship & Projects', desc: 'Real-world problem solving & verified evidence' },
+    { num: '07', title: 'Mentorship', desc: 'Guidance from alumni and industry professionals' },
+    { num: '08', title: 'Placement Match', desc: 'Direct corporate drive matching & interview prep' },
     { num: '09', title: 'Career Growth', desc: 'Lifelong continuous professional elevation' },
   ];
 
@@ -135,7 +268,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-24 sm:space-y-32 pb-24">
+    <div className="space-y-20 sm:space-y-28 pb-20">
       
       {/* 1. HERO SECTION */}
       <section className="relative pt-12 sm:pt-20 pb-16 hero-gradient overflow-hidden border-b border-slate-100">
@@ -144,8 +277,8 @@ export default function Home() {
             
             {/* Hero Left Content */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600 animate-pulse" />
                 <span>Academia–Industry Collaboration Platform</span>
               </div>
 
@@ -159,7 +292,7 @@ export default function Home() {
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                <Button to="/register" size="lg" variant="primary" className="w-full sm:w-auto shadow-md">
+                <Button to="/register" size="lg" variant="primary" className="w-full sm:w-auto shadow-md font-semibold">
                   <span>Build My Skill Profile</span>
                   <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
@@ -196,7 +329,7 @@ export default function Home() {
                 <div className="relative bg-white rounded-2xl border border-slate-200/80 shadow-soft-lg p-6 sm:p-7 space-y-5">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+                      <div className="w-3 h-3 rounded-full bg-blue-600 animate-ping"></div>
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-700">SKILLY Ecosystem</span>
                     </div>
                     <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
@@ -296,60 +429,300 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. POPULAR SKILL TRACKS SECTION */}
+      {/* LIVE ECOSYSTEM COUNTER METRICS */}
       <section className="section-container">
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
-          <span className="badge-blue">Structured Tracks</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Popular Skill Tracks
-          </h2>
-          <p className="text-base sm:text-lg text-slate-600">
-            Explore industry-aligned competency paths designed to build verified skills through progressive milestones.
-          </p>
-        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 text-center card-hover shadow-2xs">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3">
+              <Target className="w-5 h-5" />
+            </div>
+            <p className="text-2xl sm:text-3xl font-black text-slate-900">12,400+</p>
+            <p className="text-xs text-slate-500 font-medium mt-1">Verified Skill Assessments</p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {skillTracks.map((track, idx) => {
-            const Icon = track.icon;
-            return (
-              <div 
-                key={idx} 
-                className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 card-hover flex flex-col justify-between"
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 text-center card-hover shadow-2xs">
+            <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-3">
+              <Building2 className="w-5 h-5" />
+            </div>
+            <p className="text-2xl sm:text-3xl font-black text-slate-900">150+</p>
+            <p className="text-xs text-slate-500 font-medium mt-1">Partner Colleges & TPOs</p>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 text-center card-hover shadow-2xs">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+              <Briefcase className="w-5 h-5" />
+            </div>
+            <p className="text-2xl sm:text-3xl font-black text-slate-900">320+</p>
+            <p className="text-xs text-slate-500 font-medium mt-1">Active Industry Hiring Drives</p>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 text-center card-hover shadow-2xs">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-3">
+              <Award className="w-5 h-5" />
+            </div>
+            <p className="text-2xl sm:text-3xl font-black text-slate-900">94.8%</p>
+            <p className="text-xs text-slate-500 font-medium mt-1">Placement Match Rate</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. DYNAMIC LIVE PREVIEWS SECTION (Top Skills, Internships & Placement Drives) */}
+      <section className="section-container">
+        <div className="bg-white rounded-3xl border border-slate-200/90 shadow-soft-lg p-6 sm:p-10 space-y-8">
+          
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-100">
+            <div>
+              <span className="badge-blue mb-2">Live Marketplace Catalog</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Explore Skills, Internships & Placement Drives
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600 mt-1">
+                Real-time previews of verified competency tracks, corporate internships, and campus placement drives.
+              </p>
+            </div>
+
+            {/* Tab Switcher Controls */}
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl shrink-0 self-start md:self-auto">
+              <button
+                onClick={() => setActivePreviewTab('skills')}
+                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                  activePreviewTab === 'skills'
+                    ? 'bg-white text-blue-600 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${track.color}`}>
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <span className="text-xs font-medium text-slate-400">Track 0{idx + 1}</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">
-                    {track.title}
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-6">
-                    {track.desc}
-                  </p>
+                Top Skills
+              </button>
+              <button
+                onClick={() => setActivePreviewTab('internships')}
+                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                  activePreviewTab === 'internships'
+                    ? 'bg-white text-blue-600 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Active Internships
+              </button>
+              <button
+                onClick={() => setActivePreviewTab('placements')}
+                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                  activePreviewTab === 'placements'
+                    ? 'bg-white text-blue-600 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Placement Drives
+              </button>
+            </div>
+          </div>
+
+          {/* TAB 1: TOP SKILLS PREVIEW */}
+          {activePreviewTab === 'skills' && (
+            <div className="space-y-6">
+              
+              {/* Category Pills & Search Bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                  {['ALL', 'WEB', 'AI', 'CLOUD', 'CORE', 'DESIGN', 'SECURITY'].map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shrink-0 ${
+                        selectedCategory === cat
+                          ? 'bg-blue-600 text-white shadow-xs'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
                 </div>
 
-                <div>
-                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 mb-4">
-                    {track.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <Link 
-                    to="/skills" 
-                    className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors"
-                  >
-                    <span>View track details</span>
-                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                  </Link>
+                <div className="relative">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search skills or tags..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 outline-none focus:border-blue-500 w-full sm:w-64"
+                  />
                 </div>
               </div>
-            );
-          })}
+
+              {/* Skill Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredSkills.map((skill) => {
+                  const Icon = skill.icon;
+                  return (
+                    <div key={skill.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-5 flex flex-col justify-between hover:border-blue-300 hover:bg-white transition-all shadow-xs group">
+                      <div>
+                        <div className="flex items-center justify-between mb-3">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${skill.bg}`}>
+                            <Icon className="w-5 h-5" />
+                          </div>
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">
+                            {skill.demand}
+                          </span>
+                        </div>
+                        <h3 className="text-base font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
+                          {skill.title}
+                        </h3>
+                        <div className="flex items-center gap-3 text-xs text-slate-500 mb-4">
+                          <span>Level: <strong className="text-slate-700 font-semibold">{skill.level}</strong></span>
+                          <span>•</span>
+                          <span>{skill.learners}</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {skill.tags.map((t, i) => (
+                            <span key={i} className="text-[10px] font-medium bg-white text-slate-600 border border-slate-200 px-2 py-0.5 rounded">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                        <Link to="/register" className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-700">
+                          <span>Start Assessment</span>
+                          <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="pt-2 text-center">
+                <Link to="/skills" className="inline-flex items-center text-sm font-bold text-blue-600 hover:underline">
+                  <span>View all 120+ verified skill modules</span>
+                  <ChevronRight className="w-4 h-4 ml-0.5" />
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: ACTIVE INTERNSHIPS PREVIEW */}
+          {activePreviewTab === 'internships' && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {activeInternshipsData.map((item) => (
+                  <div key={item.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:border-blue-300 hover:bg-white transition-all shadow-xs">
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-10 h-10 rounded-xl bg-blue-100 text-slate-800 flex items-center justify-center font-bold text-lg shrink-0">
+                            {item.verifiedLogo}
+                          </div>
+                          <div>
+                            <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
+                            <p className="text-xs text-slate-600 font-medium">{item.company}</p>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          {item.type}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 my-4 bg-white p-3 rounded-xl border border-slate-200/60">
+                        <div className="flex items-center gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                          <span>{item.location}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5 text-slate-400" />
+                          <span>{item.duration}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
+                          <span className="font-bold text-slate-800">{item.stipend}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Zap className="w-3.5 h-3.5 text-amber-500" />
+                          <span>{item.posted}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2 border-t border-slate-200/60">
+                      <div className="flex items-center gap-1">
+                        {item.skills.map((s, i) => (
+                          <span key={i} className="text-[10px] bg-slate-200/70 text-slate-700 font-medium px-2 py-0.5 rounded">
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                      <Link to="/register" className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-700">
+                        <span>Apply Now</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-2 text-center">
+                <Link to="/internships" className="inline-flex items-center text-sm font-bold text-blue-600 hover:underline">
+                  <span>Browse all active industry internship listings</span>
+                  <ChevronRight className="w-4 h-4 ml-0.5" />
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: PLACEMENT DRIVES PREVIEW */}
+          {activePreviewTab === 'placements' && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {placementDrivesData.map((drive) => (
+                  <div key={drive.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:border-blue-300 hover:bg-white transition-all shadow-xs">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${drive.badgeColor}`}>
+                          {drive.status}
+                        </span>
+                        <span className="text-[11px] text-slate-500 flex items-center gap-1">
+                          <Calendar className="w-3.5 h-3.5" />
+                          {drive.date}
+                        </span>
+                      </div>
+
+                      <h3 className="text-base font-bold text-slate-900 mb-0.5">{drive.role}</h3>
+                      <p className="text-xs text-blue-600 font-bold mb-3">{drive.company}</p>
+
+                      <div className="space-y-2 bg-white p-3.5 rounded-xl border border-slate-200/70 text-xs mb-4">
+                        <div>
+                          <span className="text-slate-400 font-medium">Package (CTC):</span>
+                          <p className="font-extrabold text-slate-900 text-sm">{drive.ctc}</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-400 font-medium">Eligibility:</span>
+                          <p className="text-slate-700 text-xs font-semibold">{drive.eligibility}</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-400 font-medium">Rounds:</span>
+                          <p className="text-slate-600 text-[11px]">{drive.rounds}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Button to="/register" variant="primary" size="sm" className="w-full justify-center">
+                      Register for Drive
+                    </Button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-2 text-center">
+                <Link to="/placements" className="inline-flex items-center text-sm font-bold text-blue-600 hover:underline">
+                  <span>View full campus placement calendar</span>
+                  <ChevronRight className="w-4 h-4 ml-0.5" />
+                </Link>
+              </div>
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -695,3 +1068,4 @@ export default function Home() {
     </div>
   );
 }
+
