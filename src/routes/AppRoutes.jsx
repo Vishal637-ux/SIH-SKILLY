@@ -10,6 +10,7 @@ import ForStudents from '../pages/ForStudents';
 import ForColleges from '../pages/ForColleges';
 import ForIndustry from '../pages/ForIndustry';
 import Contact from '../pages/Contact';
+import Pricing from '../pages/Pricing';
 
 // Auth Pages
 import Login from '../pages/Login';
@@ -65,6 +66,7 @@ export default function AppRoutes() {
         <Route path="/for-colleges" element={<ForColleges />} />
         <Route path="/for-industry" element={<ForIndustry />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/pricing" element={<Pricing />} />
 
         {/* Authentication Routes */}
         <Route path="/login" element={<Login />} />

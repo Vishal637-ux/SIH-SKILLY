@@ -6,13 +6,12 @@ import {
   Search, 
   Moon, 
   Sun, 
-  GraduationCap, 
+  Network, 
   ChevronRight,
   User,
   LogOut,
   LayoutDashboard
 } from 'lucide-react';
-import Button from './Button';
 import useAuth from '../hooks/useAuth';
 
 const ROLE_PATH_MAP = {
@@ -27,7 +26,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const { user, isAuthenticated, logout } = useAuth();
@@ -39,14 +37,6 @@ export default function Navbar() {
     setIsSearchOpen(false);
   }, [location.pathname]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Features', path: '/features' },
@@ -54,6 +44,7 @@ export default function Navbar() {
     { name: 'For Students', path: '/for-students' },
     { name: 'For Colleges', path: '/for-colleges' },
     { name: 'For Industry', path: '/for-industry' },
+    { name: 'Pricing', path: '/pricing' },
   ];
 
   const toggleDarkMode = () => {
@@ -71,175 +62,152 @@ export default function Navbar() {
   const displayName = user?.profile?.first_name || user?.username || 'User';
 
   return (
-    <header className={`sticky top-0 z-40 w-full transition-all duration-200 ${
-      isScrolled 
-        ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm' 
-        : 'bg-white/90 backdrop-blur-sm border-b border-slate-100'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          
-          {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:bg-blue-700 transition-colors">
-              <GraduationCap className="w-6 h-6" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
-                SKILLY
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600 -mt-1">
-                Bridge to Future
-              </span>
-            </div>
-          </Link>
+    <header className="sticky top-3 sm:top-4 z-50 w-full px-3 sm:px-6">
+      <div className="max-w-6xl mx-auto bg-white/95 backdrop-blur-md rounded-full border border-slate-200/90 shadow-md shadow-slate-200/50 px-4 sm:px-6 py-2.5 flex items-center justify-between transition-all">
+        
+        {/* Brand Logo */}
+        <Link to="/" className="flex items-center gap-2 group shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:bg-blue-700 transition-colors">
+            <Network className="w-4 h-4" />
+          </div>
+          <span className="text-lg font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+            SKILLY
+          </span>
+        </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'text-blue-600 bg-blue-50/80 font-semibold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                  }`
-                }
-              >
-                {link.name}
-              </NavLink>
-            ))}
-          </nav>
-
-          {/* Right Action Controls */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            
-            {/* Search Button / Trigger */}
-            <div className="relative">
-              {isSearchOpen ? (
-                <div className="flex items-center bg-slate-100 rounded-xl px-3 py-1.5 border border-slate-200">
-                  <Search className="w-4 h-4 text-slate-400 mr-2" />
-                  <input
-                    type="text"
-                    placeholder="Search skills, roles, tracks..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-transparent text-xs sm:text-sm text-slate-800 placeholder-slate-400 outline-none w-48"
-                    autoFocus
-                  />
-                  <button 
-                    onClick={() => setIsSearchOpen(false)}
-                    className="text-slate-400 hover:text-slate-600 p-0.5"
-                    aria-label="Close search"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setIsSearchOpen(true)}
-                  aria-label="Open search"
-                  className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors"
-                  title="Search platform"
-                >
-                  <Search className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleDarkMode}
-              aria-label="Toggle theme"
-              className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors"
-              title="Toggle theme appearance"
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-full text-xs xl:text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'text-blue-600 font-bold bg-blue-50/80'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`
+              }
             >
-              {isDarkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4" />}
-            </button>
+              {link.name}
+            </NavLink>
+          ))}
+        </nav>
 
-            <div className="h-5 w-px bg-slate-200 mx-1"></div>
-
-            {/* Auth Dependent Controls */}
-            {isAuthenticated ? (
-              <div className="flex items-center gap-2.5">
-                <Link
-                  to={dashboardPath}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition-colors text-xs font-semibold text-slate-700"
-                  title="Go to role dashboard"
+        {/* Right Action Controls */}
+        <div className="hidden md:flex items-center gap-2">
+          
+          {/* Search Button / Input */}
+          <div className="relative">
+            {isSearchOpen ? (
+              <div className="flex items-center bg-slate-100 rounded-full px-3 py-1 border border-slate-200">
+                <Search className="w-3.5 h-3.5 text-slate-400 mr-2" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-transparent text-xs text-slate-800 placeholder-slate-400 outline-none w-32"
+                  autoFocus
+                />
+                <button 
+                  onClick={() => setIsSearchOpen(false)}
+                  className="text-slate-400 hover:text-slate-600 p-0.5"
+                  aria-label="Close search"
                 >
-                  <LayoutDashboard className="w-3.5 h-3.5 text-blue-600" />
-                  <span>{displayName}</span>
-                  <span className="px-1.5 py-0.5 rounded-md bg-blue-600 text-white text-[9px] font-bold tracking-wider">
-                    {userRole}
-                  </span>
-                </Link>
-
-                <button
-                  onClick={handleLogout}
-                  aria-label="Sign out"
-                  className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
-                  title="Sign out of SKILLY"
-                >
-                  <LogOut className="w-4 h-4" />
+                  <X className="w-3 h-3" />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <Button to="/login" variant="ghost" size="sm" className="text-slate-700 font-medium">
-                  Log In
-                </Button>
-                <Button to="/register" variant="primary" size="sm" className="font-semibold shadow-sm">
-                  Sign Up
-                </Button>
-              </div>
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Open search"
+                className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
+                title="Search platform"
+              >
+                <Search className="w-4 h-4" />
+              </button>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 md:hidden">
-            <button
-              onClick={toggleDarkMode}
-              aria-label="Toggle theme"
-              className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-xl"
-            >
-              {isDarkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
-            </button>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-              className="p-2 text-slate-700 hover:bg-slate-100 rounded-xl focus:outline-none"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            aria-label="Toggle theme"
+            className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
+            title="Toggle theme appearance"
+          >
+            {isDarkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4" />}
+          </button>
 
+          <div className="h-4 w-px bg-slate-200 mx-1"></div>
+
+          {/* Auth Dependent Controls */}
+          {isAuthenticated ? (
+            <div className="flex items-center gap-2">
+              <Link
+                to={dashboardPath}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-blue-50 text-slate-800 text-xs font-semibold border border-slate-200 transition-colors"
+              >
+                <LayoutDashboard className="w-3.5 h-3.5 text-blue-600" />
+                <span>{displayName}</span>
+              </Link>
+              <button
+                onClick={handleLogout}
+                aria-label="Sign out"
+                className="p-1.5 text-slate-400 hover:text-red-600 rounded-full hover:bg-red-50 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link 
+                to="/login" 
+                className="text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-full hover:bg-slate-100 transition-colors"
+              >
+                Log In
+              </Link>
+              <Link 
+                to="/register" 
+                className="text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full shadow-sm transition-all"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
+
+        {/* Mobile Menu Toggle Button */}
+        <div className="flex items-center gap-1.5 md:hidden">
+          <button
+            onClick={toggleDarkMode}
+            aria-label="Toggle theme"
+            className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-full"
+          >
+            {isDarkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4" />}
+          </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+            className="p-1.5 text-slate-700 hover:bg-slate-100 rounded-full focus:outline-none"
+          >
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+
       </div>
 
       {/* Mobile Drawer Navigation */}
       {isOpen && (
-        <div className="md:hidden border-b border-slate-200 bg-white px-4 pt-3 pb-6 shadow-xl space-y-4 animate-fadeIn">
-          {/* Mobile Search */}
-          <div className="flex items-center bg-slate-100 rounded-xl px-3 py-2 border border-slate-200">
-            <Search className="w-4 h-4 text-slate-400 mr-2" />
-            <input
-              type="text"
-              placeholder="Search skills, roadmaps, colleges..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none w-full"
-            />
-          </div>
-
+        <div className="md:hidden mt-2 bg-white rounded-3xl border border-slate-200 px-5 pt-4 pb-6 shadow-2xl space-y-4 animate-fadeIn">
           <div className="space-y-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `flex items-center justify-between px-3 py-2.5 rounded-xl text-base font-medium ${
+                  `flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium ${
                     isActive
                       ? 'text-blue-600 bg-blue-50 font-semibold'
                       : 'text-slate-700 hover:bg-slate-50'
@@ -252,35 +220,20 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="pt-3 border-t border-slate-100">
-            {isAuthenticated ? (
-              <div className="space-y-2">
-                <Link
-                  to={dashboardPath}
-                  className="flex items-center justify-between p-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-700 text-sm font-semibold"
-                >
-                  <div className="flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    <span>{displayName}</span>
-                  </div>
-                  <span className="px-2 py-0.5 rounded bg-blue-600 text-white text-xs font-bold">
-                    {userRole}
-                  </span>
-                </Link>
-                <Button onClick={handleLogout} variant="outline" size="md" className="w-full text-red-600 border-red-200 hover:bg-red-50">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sign Out
-                </Button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-3">
-                <Button to="/login" variant="outline" size="md" className="w-full">
+          <div className="pt-3 border-t border-slate-100 flex gap-2">
+            {!isAuthenticated ? (
+              <>
+                <Link to="/login" className="w-1/2 text-center text-xs font-semibold py-2.5 rounded-full border border-slate-200 text-slate-800">
                   Log In
-                </Button>
-                <Button to="/register" variant="primary" size="md" className="w-full">
+                </Link>
+                <Link to="/register" className="w-1/2 text-center text-xs font-bold py-2.5 rounded-full bg-blue-600 text-white shadow-sm">
                   Sign Up
-                </Button>
-              </div>
+                </Link>
+              </>
+            ) : (
+              <Link to={dashboardPath} className="w-full text-center text-xs font-bold py-2.5 rounded-full bg-blue-600 text-white">
+                Go to Dashboard ({displayName})
+              </Link>
             )}
           </div>
         </div>
@@ -288,3 +241,4 @@ export default function Navbar() {
     </header>
   );
 }
+
